@@ -1,0 +1,20 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow'
+}
+
+dependencies {
+    // This dependency is used by the application.
+    // implementation 'com.google.guava:guava'
+}
+
+shadowJar {
+    archiveBaseName.set('MyTester')
+    archiveVersion.set(project.version)
+    archiveClassifier.set('')
+    manifest {
+        attributes 'Main-Class': 'homework.myTester.MyTester'
+    }
+}
+
+tasks.build.dependsOn tasks.shadowJar
