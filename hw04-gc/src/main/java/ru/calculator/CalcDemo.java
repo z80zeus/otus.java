@@ -29,11 +29,11 @@ public class CalcDemo {
         }
 
         long delta = System.currentTimeMillis() - startTime;
-        System.out.println(summator.getPrevValue());
-        System.out.println(summator.getPrevPrevValue());
-        System.out.println(summator.getSumLastThreeValues());
-        System.out.println(summator.getSomeValue());
-        System.out.println(summator.getSum());
+        System.out.println("prevValue       = " + summator.getPrevValue());
+        System.out.println("prevPrevValue   = " + summator.getPrevPrevValue());
+        System.out.println("lastThreeValues = " + summator.getSumLastThreeValues());
+        System.out.println("someValue       = " + summator.getSomeValue());
+        System.out.println("sum             = " + summator.getSum());
         System.out.println("spend msec:" + delta + ", sec:" + (delta / 1000));
     }
 }
