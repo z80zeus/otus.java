@@ -1,9 +1,9 @@
 package homework;
 
-import homework.myTester.MyTester;
+//import homework.myTester.MyTester;
 
 public class RunTest {
-    public static void main() throws ClassNotFoundException {
-        MyTester.runTest("MyTest");
+    public static void main(String[] args) throws ClassNotFoundException {
+//        MyTester.runTest("MyTest");
     }
 }

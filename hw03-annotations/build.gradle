@@ -13,7 +13,7 @@ shadowJar {
     archiveVersion.set(project.version)
     archiveClassifier.set('')
     manifest {
-        attributes 'Main-Class': 'homework.myTester.MyTester'
+        attributes 'Main-Class': 'homework.RunTest'
     }
 }
 
