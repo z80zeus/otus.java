@@ -1,16 +1,20 @@
 64m   : spend msec:16543, sec:16
 128m  : spend msec:17265, sec:17
-256m  : spend msec:16999, sec:16
+256m  : spend msec:16999, sec:16 | msec:9477, sec:9
 512m  : spend msec:16579, sec:16
-1024m : spend msec:16105, sec:16
+1024m : spend msec:16105, sec:16 | msec:9492, sec:9
 2048m : spend msec:16396, sec:16
 4096m : spend msec:16276, sec:16
 8192m : spend msec:16172, sec:16
-16384m: spend msec:16148, sec:16
+16384m: spend msec:16148, sec:16 | msec:9558, sec:9
 
 
 Integer заменено на int:
-512m  : spend msec:3115, sec:3
-1024m : spend msec:3210, sec:3
-16384m: spend msec:3050, sec:3
+512m  : spend msec:3115, sec:3 | msec:1809, sec:1
+1024m : spend msec:3210, sec:3 | msec:1820, sec:1
+16384m: spend msec:3050, sec:3 | msec:1832, sec:1
 
+В сумматоре зарезервировано место в ArrayList (ensureCapacity).
+512m  : spend msec:1798, sec:1
+1024m : spend msec:1729, sec:1
+16384 : spend msec:1748, sec:1

@@ -9,7 +9,13 @@ public class Summator {
     private int prevPrevValue = 0;
     private int sumLastThreeValues = 0;
     private int someValue = 0;
-    private final List<Data> logValues = new ArrayList<>();
+//    private final ArrayList<Data> logValues = new ArrayList<>();
+
+    private final ArrayList<Data> logValues;
+    public Summator() {
+        logValues = new ArrayList<>();
+        logValues.ensureCapacity(6_000_000);
+    }
 
     public void calc(Data data) {
         logValues.add(data);
