@@ -1,0 +1,16 @@
+64m   : spend msec:16543, sec:16
+128m  : spend msec:17265, sec:17
+256m  : spend msec:16999, sec:16
+512m  : spend msec:16579, sec:16
+1024m : spend msec:16105, sec:16
+2048m : spend msec:16396, sec:16
+4096m : spend msec:16276, sec:16
+8192m : spend msec:16172, sec:16
+16384m: spend msec:16148, sec:16
+
+
+Integer заменено на int:
+512m  : spend msec:3115, sec:3
+1024m : spend msec:3210, sec:3
+16384m: spend msec:3050, sec:3
+
