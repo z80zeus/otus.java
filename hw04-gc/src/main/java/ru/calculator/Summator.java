@@ -1,7 +1,6 @@
 package ru.calculator;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Summator {
     private int sum = 0;
@@ -9,13 +8,7 @@ public class Summator {
     private int prevPrevValue = 0;
     private int sumLastThreeValues = 0;
     private int someValue = 0;
-//    private final ArrayList<Data> logValues = new ArrayList<>();
-
-    private final ArrayList<Data> logValues;
-    public Summator() {
-        logValues = new ArrayList<>();
-        logValues.ensureCapacity(6_000_000);
-    }
+    private final ArrayList<Data> logValues = new ArrayList<>();
 
     public void calc(Data data) {
         logValues.add(data);

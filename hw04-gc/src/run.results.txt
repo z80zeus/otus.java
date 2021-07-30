@@ -1,0 +1,31 @@
+Исходная программа:
+128m : out of memory
+256m :
+512m :
+1g   :
+2g   :
+4g   :
+8g   :
+12g  :
+16g  : error='Not enogh space' (в системе 12 Гб)
+
+Integer заменено на int:
+128m : out of memory
+256m :
+512m :
+1g   :
+2g   :
+4g   :
+8g   :
+12g  :
+
+
+Young/Old = 1/1:
+128m : out of memory
+256m : spend msec:5292, sec:5
+512m : spend msec:2964, sec:2
+1g   : spend msec:2556, sec:2
+2g   : spend msec:2560, sec:2
+4g   : spend msec:2525, sec:2
+8g   : spend msec:2531, sec:2
+12g  : spend msec:2534, sec:2

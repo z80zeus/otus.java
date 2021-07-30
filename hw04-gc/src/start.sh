@@ -1,13 +1,39 @@
 #!/bin/bash
 
-HEAPSIZE=512m
+mkdir /tmp/java.logs/ > /dev/null 2>&1
+
+HEAPSIZE="256"
+HEAPSTEP="128"
+MEMLIMIT="9000"
+TESTS=10
+
+while [[ $HEAPSIZE -lt $MEMLIMIT ]]; do
+
+echo -n "${HEAPSIZE}m: "
 PARAM="\
--Xms$HEAPSIZE \
--Xmx$HEAPSIZE \
+-Xms${HEAPSIZE}m \
+-Xmx${HEAPSIZE}m \
 -XX:+HeapDumpOnOutOfMemoryError \
 -XX:HeapDumpPath=/tmp/java.logs/heapdump.hprof \
 -XX:+UseG1GC \
--Xlog:gc=debug:file=/tmp/java.logs/gc-%p-%t.log:tags,uptime,time,level:filecount=5,filesize=10m
+-Xlog:gc=debug:file=/tmp/java.logs/gc-%p-%t.log:tags,uptime,time,level:filecount=5,filesize=10m \
 "
 
-java -classpath ../build/classes/java/main/ $PARAM ru.calculator.CalcDemo
+#-XX:NewRatio=1
+#-XX:NewSize=$HEAPSIZE
+#-XX:MaxNewSize=$HEAPSIZE
+#-Xmn:256m
+#-XX:MaxGCPauseMillis=1
+
+ACCUME=0
+STEPS=10
+for ((i=0; i<$TESTS; i++)); do
+    CUR=$(java -classpath ../build/classes/java/main/ $PARAM ru.calculator.CalcDemo | grep spend | sed "s/.*msec:\([0-9]*\).*/\1/")
+    echo -n "$CUR "
+    ACCUME=$(($ACCUME + $CUR))
+done
+echo "-> $(($ACCUME / $TESTS))"
+
+HEAPSIZE=$(($HEAPSIZE + $HEAPSTEP))
+
+done
