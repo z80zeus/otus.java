@@ -3,8 +3,9 @@
 mkdir /tmp/java.logs/ > /dev/null 2>&1
 
 HEAPSIZE="256"
+HEAPSIZE="384"
 HEAPSTEP="128"
-MEMLIMIT="9000"
+MEMLIMIT="4100"
 TESTS=10
 
 while [[ $HEAPSIZE -lt $MEMLIMIT ]]; do
@@ -26,7 +27,6 @@ PARAM="\
 #-XX:MaxGCPauseMillis=1
 
 ACCUME=0
-STEPS=10
 for ((i=0; i<$TESTS; i++)); do
     CUR=$(java -classpath ../build/classes/java/main/ $PARAM ru.calculator.CalcDemo | grep spend | sed "s/.*msec:\([0-9]*\).*/\1/")
     echo -n "$CUR "
