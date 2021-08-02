@@ -1,12 +1,13 @@
 #!/bin/bash
 
-mkdir /tmp/java.logs/ > /dev/null 2>&1
+LOGDIR=/tmp/java.logs
+mkdir $LOGDIR > /dev/null 2>&1
 
-HEAPSIZE="256"
-HEAPSIZE="384"
+HEAPSIZE="2048"
 HEAPSTEP="128"
+#MEMLIMIT="600"
 MEMLIMIT="4100"
-TESTS=10
+TESTS=3
 
 while [[ $HEAPSIZE -lt $MEMLIMIT ]]; do
 
@@ -15,10 +16,21 @@ PARAM="\
 -Xms${HEAPSIZE}m \
 -Xmx${HEAPSIZE}m \
 -XX:+HeapDumpOnOutOfMemoryError \
--XX:HeapDumpPath=/tmp/java.logs/heapdump.hprof \
--XX:+UseG1GC \
--Xlog:gc=debug:file=/tmp/java.logs/gc-%p-%t.log:tags,uptime,time,level:filecount=5,filesize=10m \
+-XX:HeapDumpPath=$LOGDIR/heapdump.hprof \
+-Xlog:gc=debug:file=$LOGDIR/gc-%p-%t.log:tags,uptime,time,level:filecount=5,filesize=10m \
+-XX:+UseParallelGC -XX:+UseLargePages
 "
+
+#PARAM="-server -XX:+UseParallelGC -XX:+UseLargePages -Xmn4g  -Xms8g -Xmx8g"
+#PARAM="-XX:+UseG1GC -Xmn4g  -Xms8g -Xmx8g"
+#PARAM="-XX:+UseSerialGC -XX:+UseParallelOldGC -Xmn4g  -Xms8g -Xmx8g"
+#PARAM="-XX:+UseConcMarkSweepGC -Xmn4g  -Xms8g -Xmx8g"
+
+#-XX:+UseParallelGC
+#-XX:+UseG1GC \
+#-XX:+UseSerialGC
+#-XX:-UseParallelOldGC
+# -XX:+UnlockExperimentalVMOptions -XX:+UseZGC
 
 #-XX:NewRatio=1
 #-XX:NewSize=$HEAPSIZE
@@ -26,13 +38,13 @@ PARAM="\
 #-Xmn:256m
 #-XX:MaxGCPauseMillis=1
 
-ACCUME=0
+ACCUM=0
 for ((i=0; i<$TESTS; i++)); do
     CUR=$(java -classpath ../build/classes/java/main/ $PARAM ru.calculator.CalcDemo | grep spend | sed "s/.*msec:\([0-9]*\).*/\1/")
     echo -n "$CUR "
-    ACCUME=$(($ACCUME + $CUR))
+    ACCUM=$(($ACCUM + $CUR))
 done
-echo "-> $(($ACCUME / $TESTS))"
+echo "-> $(($ACCUM / $TESTS))"
 
 HEAPSIZE=$(($HEAPSIZE + $HEAPSTEP))
 

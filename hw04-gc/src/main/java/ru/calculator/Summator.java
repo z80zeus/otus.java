@@ -13,6 +13,7 @@ public class Summator {
     public void calc(Data data) {
         logValues.add(data);
         if (logValues.size() % 6_600_000 == 0) {
+//            logValues = new ArrayList<>();
             logValues.clear();
         }
         sum += data.getValue();
