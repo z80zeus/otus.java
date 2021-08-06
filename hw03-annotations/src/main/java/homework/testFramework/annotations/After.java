@@ -1,4 +1,4 @@
-package homework.myTester;
+package homework.testFramework.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

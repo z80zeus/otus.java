@@ -1,9 +1,11 @@
 package homework;
 
-//import homework.class4test.TestIt;
-import homework.myTester.*;
+import homework.testFramework.annotations.*;
 
-public class MyTest {
+/**
+ * Тест, тестирующий Class4Test с использованием testFramework.
+ */
+public class TestClass {
     @Before
     void runBeforeEachTestIteration() {
     }
