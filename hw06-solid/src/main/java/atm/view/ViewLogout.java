@@ -7,10 +7,6 @@ import java.util.function.Consumer;
  */
 public class ViewLogout implements ViewInterface {
 
-    public ViewLogout(Consumer<Integer> consumer) {
-        this.consumer = consumer;
-    }
-
     @Override
     public void show() {
         System.out.println("Bye");
@@ -20,6 +16,13 @@ public class ViewLogout implements ViewInterface {
     @Override
     public void hide() {
         System.out.println("=========================");
+    }
+
+    protected ViewLogout(Object consumer) {
+        if (!(consumer instanceof Consumer))
+            throw new ClassCastException("ViewLogout: controller does not implements Consumer interface");
+        @SuppressWarnings("unchecked") final var consumer_ = (Consumer<Integer>) consumer;
+        this.consumer = consumer_;
     }
 
     private final Consumer<Integer> consumer;

@@ -3,7 +3,6 @@ package atm.state;
 import atm.Controller;
 import atm.Operations;
 import atm.view.ViewInterface;
-import atm.view.ViewLogout;
 
 import java.util.function.Consumer;
 
@@ -11,7 +10,7 @@ public class StateLogout extends State implements Consumer<Integer> {
 
     protected StateLogout(Controller atm) {
         super(atm);
-        view = new ViewLogout(this);
+        view = atm.getViewFactory().createView(Operations.Logout, this);
     }
 
     @Override

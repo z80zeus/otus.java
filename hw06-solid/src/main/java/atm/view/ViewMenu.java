@@ -7,10 +7,6 @@ import java.util.function.Consumer;
 
 public class ViewMenu implements ViewInterface{
 
-    public ViewMenu(Consumer<Operations> consumer) {
-        this.consumer = consumer;
-    }
-
     @Override
     public void show() {
         var streamReader = new Scanner(System.in);
@@ -41,12 +37,18 @@ public class ViewMenu implements ViewInterface{
                 }
             }
         }
-
     }
 
     @Override
     public void hide() {
         System.out.println("=========================");
+    }
+
+    protected ViewMenu(Object consumer) {
+        if (!(consumer instanceof Consumer))
+            throw new ClassCastException("ViewMenu: controller does not implements Consumer interface");
+        @SuppressWarnings("unchecked") final var consumer_ = (Consumer<Operations>) consumer;
+        this.consumer = consumer_;
     }
 
     private final Consumer<Operations> consumer;

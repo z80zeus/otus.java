@@ -11,7 +11,7 @@ public class StateMenu extends State implements Consumer<Operations> {
 
     public StateMenu(Controller atm_) {
         super(atm_);
-        view = new ViewMenu(this);
+        view = atm.getViewFactory().createView(Operations.Menu, this);
     }
 
     @Override

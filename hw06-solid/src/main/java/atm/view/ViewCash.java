@@ -7,11 +7,6 @@ import java.util.function.Consumer;
 
 public class ViewCash implements ViewInterface {
 
-
-    public ViewCash(Consumer<Optional<BigInteger>> consumer) {
-        this.consumer = consumer;
-    }
-
     @Override
     public void show() {
         var streamReader = new Scanner(System.in);
@@ -24,5 +19,11 @@ public class ViewCash implements ViewInterface {
         System.out.println("=========================");
     }
 
+    protected ViewCash(Object consumer) {
+        if (!(consumer instanceof Consumer))
+            throw new ClassCastException("ViewCash: controller does not implements Consumer interface");
+        @SuppressWarnings("unchecked") final var consumer_ = (Consumer<Optional<BigInteger>>) consumer;
+        this.consumer = consumer_;
+    }
     private final Consumer<Optional<BigInteger>> consumer;
 }

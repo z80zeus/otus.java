@@ -2,7 +2,6 @@ package atm.state;
 
 import atm.Controller;
 import atm.Operations;
-import atm.view.ViewDeposit;
 import atm.view.ViewInterface;
 
 import java.math.BigInteger;
@@ -48,7 +47,7 @@ public class StateDeposit extends State implements Callable<Void> {
      */
     protected StateDeposit(Controller atm) {
         super(atm);
-        view = new ViewDeposit(this);
+        view = atm.getViewFactory().createView(Operations.Deposit, this);
     }
 
     /**

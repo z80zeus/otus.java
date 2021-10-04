@@ -3,7 +3,6 @@ package atm.state;
 import atm.Controller;
 import atm.Operations;
 import atm.view.ViewInterface;
-import atm.view.ViewLogin;
 
 import java.util.function.Consumer;
 
@@ -11,7 +10,7 @@ public class StateLogin extends State implements Consumer<String> {
 
     public StateLogin(Controller atm_) {
         super(atm_);
-        view = new ViewLogin(this);
+        view = atm.getViewFactory().createView(Operations.Login, this);
     }
 
     @Override

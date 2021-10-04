@@ -26,10 +26,9 @@ public class StateBalance extends State implements Callable<Void> {
     /**
      * Метод из интерфейса Callable. Вызывается экранной формой по завершении демонстрации баланса пользователю.
      * @return Метод ничего не возвращает.
-     * @throws Exception Декларация исключения - для совместимости с интерфейсом Callable. Метод ничего не выбрасывает.
      */
     @Override
-    public Void call() throws Exception {
+    public Void call() {
         view.hide();
         atm.setState(States.createState(Operations.Menu, atm));
         return null;
@@ -42,7 +41,7 @@ public class StateBalance extends State implements Callable<Void> {
      */
     protected StateBalance(Controller atm) {
         super(atm);
-        view = new ViewBalance(this);
+        view = (ViewBalance) atm.getViewFactory().createView(Operations.Balance, this);
     }
 
     /**

@@ -4,6 +4,7 @@ import atm.account.AccountService;
 import atm.config.ConfigInterface;
 import atm.state.State;
 import atm.state.States;
+import atm.view.ViewFactoryInterface;
 
 /**
  * Контроллер банкомата.
@@ -26,6 +27,7 @@ public class Controller {
      * конструирования (build) - создаёт объект контроллер.
      */
     public static class ControllerBuilder {
+
         /**
          * Установить параметр "Конфигурация контроллера".
          * @param cfg Конфигурационный объект.
@@ -57,16 +59,27 @@ public class Controller {
         }
 
         /**
+         * Установить параметр "Фабрика экранных форм".
+         * @param viewFactory Фабрика, которая создаёт экранные формы нужного типа.
+         * @return Ссылка на текущий объект-билдер для построения цепочек вызовов.
+         */
+        public ControllerBuilder setViewFactory(ViewFactoryInterface viewFactory) {
+            this.viewFactory = viewFactory;
+            return this;
+        }
+
+        /**
          * Создать контроллер.
          * @return Новый контроллер с параметрами, соответствующими установленным в билдере.
          */
         public Controller build() {
-            return new Controller(config, cashBox, accountService);
+            return new Controller(config, cashBox, accountService, viewFactory);
         }
 
         private ConfigInterface config = null;
         private CashBox cashBox = null;
         private AccountService accountService = null;
+        private ViewFactoryInterface viewFactory = null;
     }
 
     /**
@@ -128,6 +141,12 @@ public class Controller {
     public AccountService getAccountService() { return accountService; }
 
     /**
+     * Получить фабрику экранных форм.
+     * @return Фабрика экранных форм.
+     */
+    public ViewFactoryInterface getViewFactory() { return viewFactory; }
+
+    /**
      * Конфигурация приложения.
      */
     private final ConfigInterface config;
@@ -140,12 +159,12 @@ public class Controller {
     /**
      * Объект управляющий сейфом банкомата.
      */
-    private CashBox cashBox = null;
+    private final CashBox cashBox;
 
     /**
      * Служба работы с учётной записью пользователя.
      */
-    private AccountService accountService;
+    private final AccountService accountService;
 
     /**
      * Текущее состояние контроллера банкомата.
@@ -153,14 +172,23 @@ public class Controller {
     private State state = null;
 
     /**
+     * Фабрика экранных форм.
+     */
+    private final ViewFactoryInterface viewFactory;
+
+    /**
      * Конструктор, с помощью которого билдер создаёт контроллер.
      * @param config Объект, содержащий конфигурацию проекта.
      * @param cashBox Объект, управляющий сейфом банкомата.
      * @param accountService Сервис, работающий с учётными записями пользователей.
      */
-    private Controller(ConfigInterface config, CashBox cashBox, AccountService accountService) {
+    private Controller(ConfigInterface config,
+                       CashBox cashBox,
+                       AccountService accountService,
+                       ViewFactoryInterface viewFactory) {
         this.config = config;
         this.cashBox = cashBox;
         this.accountService = accountService;
+        this.viewFactory = viewFactory;
     }
 }

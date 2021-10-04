@@ -5,17 +5,6 @@ import java.util.concurrent.Callable;
 
 public class ViewBalance implements ViewInterface {
 
-    public ViewBalance(Object controller) {
-        if (!(controller instanceof Callable))
-            throw new ClassCastException("ViewBalance: controller does not implements Callable interface");
-        @SuppressWarnings("unchecked") final var c = (Callable<Void>) controller;
-        this.controller = c;
-    }
-
-//    public ViewBalance(Callable<Void> controller) {
-//        this.controller = controller;
-//    }
-
     @Override
     public void show() {
         System.out.println("Balance: " + balance);
@@ -34,6 +23,13 @@ public class ViewBalance implements ViewInterface {
 
     public void setBalance(BigInteger balance) {
         this.balance = balance;
+    }
+
+    protected ViewBalance(Object controller) {
+        if (!(controller instanceof Callable))
+            throw new ClassCastException("ViewBalance: controller does not implements Callable interface");
+        @SuppressWarnings("unchecked") final var controller_ = (Callable<Void>) controller;
+        this.controller = controller_;
     }
 
     private final Callable<Void> controller;

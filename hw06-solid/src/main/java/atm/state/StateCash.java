@@ -2,7 +2,6 @@ package atm.state;
 
 import atm.Controller;
 import atm.Operations;
-import atm.view.ViewCash;
 import atm.view.ViewInterface;
 
 import java.math.BigInteger;
@@ -43,7 +42,7 @@ public class StateCash extends State implements Consumer<Optional<BigInteger>> {
      */
     protected StateCash(Controller atm) {
         super(atm);
-        view = new ViewCash(this);
+        view = atm.getViewFactory().createView(Operations.Cash, this);
     }
 
     /**
