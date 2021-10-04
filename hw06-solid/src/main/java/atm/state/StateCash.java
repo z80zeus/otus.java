@@ -33,7 +33,7 @@ public class StateCash extends State implements Consumer<Optional<BigInteger>> {
     public void accept(Optional<BigInteger> cash) {
         cash.ifPresent(cashValue -> atm.getCashBox().giveOut(cashValue));
         view.hide();
-        atm.setState(States.createState(atm, Operations.Menu));
+        atm.setState(States.createState(Operations.Menu, atm));
     }
 
     /**
@@ -46,5 +46,8 @@ public class StateCash extends State implements Consumer<Optional<BigInteger>> {
         view = new ViewCash(this);
     }
 
+    /**
+     * Экранная форма, соответствующая состоянию.
+     */
     private final ViewInterface view;
 }

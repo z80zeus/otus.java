@@ -9,11 +9,11 @@ import atm.Operations;
 public class States {
     /**
      * Фабрика состояний.
-     * @param atm Объект-контроллер, в контексте которого будет работать создаваемое состояние.
      * @param operation Операция, для обработки которой требуется создать состояние.
+     * @param atm Объект-контроллер, в контексте которого будет работать создаваемое состояние.
      * @return Новый объект "Состояние банкомата" в соответствии с параметрами.
      */
-    public static State createState(Controller atm, Operations operation) {
+    public static State createState(Operations operation, Controller atm) {
         return switch (operation) {
             case Login -> new StateLogin(atm);
             case Logout -> new StateLogout(atm);

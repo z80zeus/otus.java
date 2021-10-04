@@ -22,7 +22,7 @@ public class StateMenu extends State implements Consumer<Operations> {
     @Override
     public void accept(Operations operation) {
         view.hide();
-        atm.setState(States.createState(atm, operation));
+        atm.setState(States.createState(operation, atm));
     }
 
     private final ViewInterface view;

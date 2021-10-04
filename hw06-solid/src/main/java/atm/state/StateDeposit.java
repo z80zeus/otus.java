@@ -37,18 +37,30 @@ public class StateDeposit extends State implements Callable<Void> {
             atm.getAccountService().deposit(atm.getUuid(), BigInteger.valueOf(sortOutCash(bankNotes)));
 
         view.hide();
-        atm.setState(States.createState(atm, Operations.Menu));
+        atm.setState(States.createState(Operations.Menu, atm));
         return null;
     }
 
+    /**
+     * Объект создаётся фабрикой, поэтому конструктор защищён.
+     * Конструктор создаёт экранную форму, с которой будет работать.
+     * @param atm Контроллер банкомата в контексте которого будет работать конструируемый объект.
+     */
     protected StateDeposit(Controller atm) {
         super(atm);
         view = new ViewDeposit(this);
     }
 
+    /**
+     * Разбор поступившей наличности.
+     * @param bankNotes Словарь наличности (номинал-количество), помещённой в банкомат пользователем.
+     * @return Общая сумма внесённых наличных.
+     */
     private Integer sortOutCash(Map<Integer, Integer> bankNotes) {
         var sum = 0;
         for(var bankNote: bankNotes.entrySet()) {
+            // Этот вывод в консоль не является частью пользовательского интерфейса банкомата.
+            // Этот вывод просто иллюстрирует работу купюроприёмника, поэтому находится здесь, а не в ViewDeposit
             System.out.println("Cash: " + bankNote.getKey());
             sum += bankNote.getKey() * bankNote.getValue();
         }
@@ -56,5 +68,8 @@ public class StateDeposit extends State implements Callable<Void> {
         return sum;
     }
 
+    /**
+     * Экранная форма, соответствующая состоянию.
+     */
     private final ViewInterface view;
 }

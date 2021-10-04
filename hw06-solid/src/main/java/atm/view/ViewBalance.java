@@ -5,9 +5,16 @@ import java.util.concurrent.Callable;
 
 public class ViewBalance implements ViewInterface {
 
-    public ViewBalance(Callable<Void> controller) {
-        this.controller = controller;
+    public ViewBalance(Object controller) {
+        if (!(controller instanceof Callable))
+            throw new ClassCastException("ViewBalance: controller does not implements Callable interface");
+        @SuppressWarnings("unchecked") final var c = (Callable<Void>) controller;
+        this.controller = c;
     }
+
+//    public ViewBalance(Callable<Void> controller) {
+//        this.controller = controller;
+//    }
 
     @Override
     public void show() {

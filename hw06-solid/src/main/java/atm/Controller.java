@@ -92,7 +92,7 @@ public class Controller {
      * Запуск контроллера - точка входа в проект.
      */
     public void run () {
-        setState(States.createState(this, Operations.Login));
+        setState(States.createState(Operations.Login, this));
     }
 
     /**

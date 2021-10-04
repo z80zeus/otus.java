@@ -31,7 +31,7 @@ public class StateBalance extends State implements Callable<Void> {
     @Override
     public Void call() throws Exception {
         view.hide();
-        atm.setState(States.createState(atm, Operations.Menu));
+        atm.setState(States.createState(Operations.Menu, atm));
         return null;
     }
 
@@ -45,5 +45,8 @@ public class StateBalance extends State implements Callable<Void> {
         view = new ViewBalance(this);
     }
 
+    /**
+     * Экранная форма, соответствующая состоянию.
+     */
     private final ViewBalance view;
 }

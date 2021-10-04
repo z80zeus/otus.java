@@ -23,7 +23,7 @@ public class StateLogout extends State implements Consumer<Integer> {
     public void accept(Integer integer) {
         view.hide();
         atm.setUuid(null);
-        atm.setState(States.createState(atm, Operations.Login));
+        atm.setState(States.createState(Operations.Login, atm));
     }
 
     private final ViewInterface view;

@@ -6,6 +6,8 @@ import java.util.Scanner;
 import java.util.function.Consumer;
 
 public class ViewCash implements ViewInterface {
+
+
     public ViewCash(Consumer<Optional<BigInteger>> consumer) {
         this.consumer = consumer;
     }
