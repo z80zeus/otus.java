@@ -13,7 +13,7 @@ public class States {
      * @param atm Объект-контроллер, в контексте которого будет работать создаваемое состояние.
      * @return Новый объект "Состояние банкомата" в соответствии с параметрами.
      */
-    public static State createState(Operations operation, Controller atm) {
+    public static State createState(Operations operation, Controller atm, Object... args) {
         return switch (operation) {
             case Login -> new StateLogin(atm);
             case Logout -> new StateLogout(atm);
@@ -21,6 +21,7 @@ public class States {
             case Balance -> new StateBalance(atm);
             case Cash -> new StateCash(atm);
             case Deposit -> new StateDeposit(atm);
+            case Error -> new StateError(atm, args);
         };
     }
 

@@ -19,7 +19,14 @@ public class StateBalance extends State implements Callable<Void> {
      */
     @Override
     public void doJob() {
-        view.setBalance(atm.getAccountService().balance(atm.getUuid()));
+        try {
+            view.setBalance(atm.getAccountService().balance(atm.getUuid()));
+        } catch (IllegalAccessException e) {
+            view.hide();
+            atm.setState(States.createState(Operations.Error, atm, e.getMessage()));
+            return;
+        }
+
         view.show();
     }
 

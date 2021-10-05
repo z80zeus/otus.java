@@ -20,7 +20,7 @@ public class AccountService {
      * @param uuid Идентификатор пользователя.
      * @return Баланс пользователя.
      */
-    public BigInteger balance(String uuid) {
+    public BigInteger balance(String uuid) throws IllegalAccessException {
         // В реальном проекте здесь должен быть код работы с DAO. Заглушка игнорирует параметры и выдаёт случайное число.
         return randomInsideMillion();
     }
@@ -53,11 +53,10 @@ public class AccountService {
     /**
      * Проверка возможности входа в систему пользователя.
      * @param uuid UID пользователя, который пытается войти в систему.
-     * @return true - в случае если пользователь найден и может работать в системе, false - в противном случае.
+     * @throws IllegalAccessException Пользователь uuid не имеет прав для входа в систему.
      */
-    public boolean checkForUserLogin(String uuid){
+    public void login(String uuid) throws IllegalAccessException {
         // В реальном проекте здесь должен быть код работы с DAO. Заглушка игнорирует параметры и пускает всех.
-        return true;
     }
 
     /**

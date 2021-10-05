@@ -20,5 +20,8 @@ public enum Operations {
     Cash,
 
     /** Внесение наличных */
-    Deposit
+    Deposit,
+
+    /** Обработка ошибки */
+    Error
 }

@@ -6,13 +6,14 @@ import java.util.Random;
 import java.util.TreeMap;
 
 public class CashBox {
-    public void giveOut(BigInteger cash) {
+    public BigInteger giveOut(BigInteger cash) {
         for (var bankNote : bankNotes) {
             var num = cash.divide(BigInteger.valueOf(bankNote));
             if (!num.equals(BigInteger.valueOf(0)))
                 System.out.println("Bank note " + bankNote + ": " + num);
             cash = cash.remainder(BigInteger.valueOf(bankNote));
         }
+        return cash;
     }
 
     public void open() {

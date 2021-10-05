@@ -27,13 +27,19 @@ public class StateDeposit extends State implements Callable<Void> {
     /**
      * Метод из интерфейса Callable. Вызывается экранной формой по команде пользователя о завершении внесения средств.
      * @return Метод ничего не возвращает.
-     * @throws Exception Декларация исключения - для совместимости с интерфейсом Callable. Метод ничего не выбрасывает.
      */
     @Override
-    public Void call() throws Exception {
+    public Void call() {
         var bankNotes = atm.getCashBox().takeIn();
-        if (!bankNotes.isEmpty())
-            atm.getAccountService().deposit(atm.getUuid(), BigInteger.valueOf(sortOutCash(bankNotes)));
+        if (!bankNotes.isEmpty()) {
+            try {
+                atm.getAccountService().deposit(atm.getUuid(), BigInteger.valueOf(sortOutCash(bankNotes)));
+            } catch (IllegalAccessException e) {
+                view.hide();
+                atm.setState(States.createState(Operations.Error, atm, e.getMessage()));
+                return null;
+            }
+        }
 
         view.hide();
         atm.setState(States.createState(Operations.Menu, atm));

@@ -25,12 +25,23 @@ public class StateCash extends State implements Consumer<Optional<BigInteger>> {
 
     /**
      * Метод из интерфейса Consumer. Вызывается экранной формой после ввода пользователем требуемой суммы.
-     * Если пользователь отменил операцию - значение будет не установленным.
+     * Если пользователь отменил операцию - значение будет пустым.
      * @param cash Требуемая сумма или не установленный Optional если операция отменена.
      */
     @Override
     public void accept(Optional<BigInteger> cash) {
-        cash.ifPresent(cashValue -> atm.getCashBox().giveOut(cashValue));
+        if (cash.isPresent())
+            try {
+                final var cashValue = cash.get();
+                atm.getAccountService().cash(atm.getUuid(), cashValue);
+                atm.getCashBox().giveOut(cashValue);
+            }
+            catch (IllegalAccessException e) {
+                view.hide();
+                atm.setState(States.createState(Operations.Error, atm, e.getMessage()));
+                return;
+            }
+
         view.hide();
         atm.setState(States.createState(Operations.Menu, atm));
     }
