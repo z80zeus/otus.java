@@ -10,7 +10,7 @@ import java.util.function.Consumer;
 
 /**
  * Состояние контроллера банкомата: "Снятие наличных".
- * Реализует интерфейс Consumer, чтобы получать введённую сумму от экранной формы ViewCash.
+ * Реализует интерфейс Consumer, чтобы получать введённую пользователем сумму от экранной формы ViewCash.
  */
 public class StateCash extends State implements Consumer<Optional<BigInteger>> {
 
@@ -24,36 +24,47 @@ public class StateCash extends State implements Consumer<Optional<BigInteger>> {
     }
 
     /**
-     * Метод из интерфейса Consumer. Вызывается экранной формой после ввода пользователем требуемой суммы.
+     * Метод интерфейса Consumer. Вызывается экранной формой после ввода пользователем требуемой суммы.
      * Если пользователь отменил операцию - значение будет пустым.
+     * Через сервис доступа к аккаунту метод списывает у клиента сумму со счёта и даёт команду сейфовой машине выдать
+     * сумму.
+     * В случае ошибки переключает контроллер в состояние "Обработка ошибки".
      * @param cash Требуемая сумма или не установленный Optional если операция отменена.
      */
     @Override
     public void accept(Optional<BigInteger> cash) {
-        if (cash.isPresent())
-            try {
-                final var cashValue = cash.get();
-                atm.getAccountService().cash(atm.getUuid(), cashValue);
-                atm.getCashBox().giveOut(cashValue);
-            }
-            catch (IllegalAccessException e) {
-                view.hide();
-                atm.setState(States.createState(Operations.Error, atm, e.getMessage()));
-                return;
-            }
+        if (cash.isEmpty()) {
+            switchControllerToMenu();
+            return;
+        }
 
-        view.hide();
-        atm.setState(States.createState(Operations.Menu, atm));
+        try {
+            final var cashValue = cash.get();
+            atm.getAccountService().cash(atm.getUuid(), cashValue);
+            atm.getCashBox().giveOut(cashValue);
+            switchControllerToMenu();
+        } catch (IllegalAccessException e) {
+            view.hide();
+            atm.setState(States.createState(Operations.Error, atm, e.getMessage()));
+        }
     }
 
     /**
-     * Объект создаётся фабрикой, поэтому конструктор защищён.
      * Конструктор создаёт экранную форму, с которой будет работать.
+     * Объект создаётся фабрикой, поэтому конструктор защищён.
      * @param atm Контроллер банкомата в контексте которого будет работать конструируемый объект.
      */
     protected StateCash(Controller atm) {
         super(atm);
         view = atm.getViewFactory().createView(Operations.Cash, this);
+    }
+
+    /**
+     * Переключить контроллер в состояние "Меню".
+     */
+    private void switchControllerToMenu() {
+        view.hide();
+        atm.setState(States.createState(Operations.Menu, atm));
     }
 
     /**

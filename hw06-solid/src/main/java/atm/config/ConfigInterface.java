@@ -10,5 +10,6 @@ public interface ConfigInterface {
      * @param key Имя ключа.
      * @return Значение параметра.
      */
+    @SuppressWarnings("unused")
     String getValue(String key);
 }

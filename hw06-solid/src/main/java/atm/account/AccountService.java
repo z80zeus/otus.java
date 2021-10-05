@@ -6,9 +6,10 @@ import java.util.Random;
 /**
  * Служба работы с аккаунтом пользователя.
  */
+@SuppressWarnings("ClassCanBeRecord")
 public class AccountService {
     /**
-     * При конструировании сервису инъектится объект доступа к данным.
+     * При конструировании сервису передаётся объект доступа к данным.
      * @param dao Объект, реализующий интерфейс доступа к данным.
      */
     public AccountService(AccountDAOInterface dao) {
@@ -19,8 +20,9 @@ public class AccountService {
      * Запрос баланса пользователя.
      * @param uuid Идентификатор пользователя.
      * @return Баланс пользователя.
+     * @throws IllegalAccessException Пользователь uuid не имеет прав для осуществления операции.
      */
-    public BigInteger balance(String uuid) throws IllegalAccessException {
+    public BigInteger balance(@SuppressWarnings("unused") String uuid) throws IllegalAccessException {
         // В реальном проекте здесь должен быть код работы с DAO. Заглушка игнорирует параметры и выдаёт случайное число.
         return randomInsideMillion();
     }
@@ -30,10 +32,12 @@ public class AccountService {
      * @param uuid Идентификатор пользователя.
      * @param cash Снимаемая сумма.
      * @return Остаток на счёте после совершения операции снятия наличных.
-     * @throws IllegalAccessException Невозможно завершить операцию для пользователя uuid.
+     * @throws IllegalAccessException Пользователь uuid не имеет прав для осуществления операции.
      * @throws IllegalStateException Состояние счёта не позволяет завершить операцию (недостаточно средств?)
      */
-    public BigInteger cash(String uuid, BigInteger cash) throws IllegalAccessException, IllegalStateException {
+    @SuppressWarnings("UnusedReturnValue")
+    public BigInteger cash(@SuppressWarnings("unused") String uuid,
+                           @SuppressWarnings("unused") BigInteger cash) throws IllegalAccessException, IllegalStateException {
         // В реальном проекте здесь должен быть код работы с DAO. Заглушка игнорирует параметры и выдаёт случайное число.
         return randomInsideMillion();
     }
@@ -43,10 +47,12 @@ public class AccountService {
      * @param uuid Идентификатор пользователя.
      * @param depo Вносимая сумма.
      * @return Остаток на счёте после совершения операция внесения наличных.
-     * @throws IllegalAccessException Невозможно завершить операцию для пользователя uuid.
+     * @throws IllegalAccessException Пользователь uuid не имеет прав для осуществления операции.
      */
-    public BigInteger deposit(String uuid, BigInteger depo) throws IllegalAccessException {
-        // В реальном проекте здесь должен быть код работы с DAO. Заглушка игнорирует параметры и выдаёт случайное число.
+    @SuppressWarnings("UnusedReturnValue")
+    public BigInteger deposit(@SuppressWarnings("unused") String uuid,
+                              @SuppressWarnings("unused") BigInteger depo) throws IllegalAccessException {
+        // В реальном проекте здесь должен быть код работы с DAO. Заглушка игнорирует параметры и возвращает случайное число.
         return randomInsideMillion();
     }
 
@@ -55,7 +61,7 @@ public class AccountService {
      * @param uuid UID пользователя, который пытается войти в систему.
      * @throws IllegalAccessException Пользователь uuid не имеет прав для входа в систему.
      */
-    public void login(String uuid) throws IllegalAccessException {
+    public void login(@SuppressWarnings("unused") String uuid) throws IllegalAccessException {
         // В реальном проекте здесь должен быть код работы с DAO. Заглушка игнорирует параметры и пускает всех.
     }
 
@@ -68,6 +74,6 @@ public class AccountService {
         return BigInteger.valueOf(rnd.nextInt(1000000));
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings({"LocalVariable", "FieldCanBeLocal", "unused"})
     private final AccountDAOInterface dao;
 }

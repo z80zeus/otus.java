@@ -7,11 +7,11 @@ import atm.config.ConfigInterface;
  */
 public class AccountDAO {
     /**
-     * Фабрика создаёт службу доступа к данным на основе конфигурации.
+     * Фабрика создаёт объект доступа к данным на основе конфигурации.
      * @param cfg Конфигурационный объект.
      * @return Объект доступа к данным.
      */
-    public static AccountDAOInterface createDAO(ConfigInterface cfg) {
+    public static AccountDAOInterface createDAO(@SuppressWarnings("unused") ConfigInterface cfg) {
         return new AccountDAODefault();
     }
 }

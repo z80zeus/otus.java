@@ -2,6 +2,7 @@ package atm;
 
 import java.math.BigInteger;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 import java.util.TreeMap;
 
@@ -20,14 +21,20 @@ public class CashBox {
         System.out.println("Cashbox is opened.");
     }
 
-    public Map<Integer, Integer> takeIn() {
-        var rtn = new TreeMap<Integer,Integer>();
+    public Optional<BigInteger> takeIn() {
+        var sum = 0;
         var rnd = new Random();
         for (var bankNote: bankNotes) {
             var num = rnd.nextInt(10);
-            rtn.put(bankNote, num);
+            sum += bankNote * num;
+            // Этот вывод в консоль не является частью пользовательского интерфейса банкомата.
+            // Этот вывод просто иллюстрирует работу купюроприёмника, поэтому находится здесь, а не в View.
+            System.out.println("Cash: " + bankNote + " = " + num);
         }
-        return rtn;
+        // Этот вывод в консоль не является частью пользовательского интерфейса банкомата.
+        // Этот вывод просто иллюстрирует работу купюроприёмника, поэтому находится здесь, а не в View.
+        System.out.println("Total: " + sum);
+        return Optional.of(BigInteger.valueOf(sum));
     }
 
     private static final int[] bankNotes = { 5000, 1000, 500, 100, 50, 10, 5, 1 };

@@ -4,12 +4,10 @@ import atm.Controller;
 import atm.Operations;
 import atm.view.ViewInterface;
 
-import java.math.BigInteger;
-import java.util.Map;
 import java.util.concurrent.Callable;
 
 /**
- * Состояние контроллера банкомата: "Снятие наличных".
+ * Состояние контроллера банкомата: "Внесение наличных".
  * Реализует интерфейс Callable, чтобы получать оповещение пользователя о завершении внесении денег.
  */
 public class StateDeposit extends State implements Callable<Void> {
@@ -25,52 +23,35 @@ public class StateDeposit extends State implements Callable<Void> {
     }
 
     /**
-     * Метод из интерфейса Callable. Вызывается экранной формой по команде пользователя о завершении внесения средств.
-     * @return Метод ничего не возвращает.
+     * Метод интерфейса Callable. Вызывается экранной формой по команде пользователя о завершении внесения средств.
+     * Если пользователь поместил в сейф-машину банкноты - выясняет сумму и вносит её на счёт.
+     * В случае ошибки переключает контроллер в состояние "Обработка ошибки".
      */
     @Override
     public Void call() {
-        var bankNotes = atm.getCashBox().takeIn();
-        if (!bankNotes.isEmpty()) {
+        final var depoValue = atm.getCashBox().takeIn();
+        if (depoValue.isPresent()) {
             try {
-                atm.getAccountService().deposit(atm.getUuid(), BigInteger.valueOf(sortOutCash(bankNotes)));
-            } catch (IllegalAccessException e) {
+                atm.getAccountService().deposit(atm.getUuid(), depoValue.get());
+                view.hide();
+                atm.setState(States.createState(Operations.Menu, atm));
+            }
+            catch (IllegalAccessException e) {
                 view.hide();
                 atm.setState(States.createState(Operations.Error, atm, e.getMessage()));
-                return null;
             }
         }
-
-        view.hide();
-        atm.setState(States.createState(Operations.Menu, atm));
         return null;
     }
 
     /**
-     * Объект создаётся фабрикой, поэтому конструктор защищён.
      * Конструктор создаёт экранную форму, с которой будет работать.
+     * Объект создаётся фабрикой, поэтому конструктор защищён.
      * @param atm Контроллер банкомата в контексте которого будет работать конструируемый объект.
      */
     protected StateDeposit(Controller atm) {
         super(atm);
         view = atm.getViewFactory().createView(Operations.Deposit, this);
-    }
-
-    /**
-     * Разбор поступившей наличности.
-     * @param bankNotes Словарь наличности (номинал-количество), помещённой в банкомат пользователем.
-     * @return Общая сумма внесённых наличных.
-     */
-    private Integer sortOutCash(Map<Integer, Integer> bankNotes) {
-        var sum = 0;
-        for(var bankNote: bankNotes.entrySet()) {
-            // Этот вывод в консоль не является частью пользовательского интерфейса банкомата.
-            // Этот вывод просто иллюстрирует работу купюроприёмника, поэтому находится здесь, а не в ViewDeposit
-            System.out.println("Cash: " + bankNote.getKey());
-            sum += bankNote.getKey() * bankNote.getValue();
-        }
-        System.out.println("Total: " + sum);
-        return sum;
     }
 
     /**
