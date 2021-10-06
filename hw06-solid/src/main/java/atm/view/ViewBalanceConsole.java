@@ -1,6 +1,7 @@
 package atm.view;
 
 import java.math.BigInteger;
+import java.util.Scanner;
 import java.util.concurrent.Callable;
 
 /**
@@ -15,6 +16,8 @@ public class ViewBalanceConsole implements ViewInterface {
     @Override
     public void show() {
         System.out.println("Balance: " + balance);
+        System.out.print("Press Enter:");
+        new Scanner(System.in).nextLine();
         try {
             controller.call();
         }

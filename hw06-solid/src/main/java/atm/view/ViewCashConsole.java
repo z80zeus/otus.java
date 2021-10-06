@@ -16,9 +16,15 @@ public class ViewCashConsole implements ViewInterface {
      */
     @Override
     public void show() {
-        var streamReader = new Scanner(System.in);
+        final var streamReader = new Scanner(System.in);
         System.out.print("Enter the cash volume or just push ENTER to cancel operation: ");
-        controller.accept(Optional.ofNullable(streamReader.nextBigInteger()));
+        final var line = streamReader.nextLine();
+        if (line.length() <= 0) {
+            controller.accept(Optional.ofNullable(null));
+            return;
+        }
+        final var cash = BigInteger.valueOf(Long.parseLong(line));
+        controller.accept(Optional.of(cash));
     }
 
     /**
