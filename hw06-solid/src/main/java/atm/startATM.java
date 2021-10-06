@@ -11,6 +11,8 @@ import atm.view.ViewAbstractFactory;
 public class startATM {
     /**
      * Точка входа в приложение.
+     * Функция из параметров командной строки создаёт конфигурационный объект, с применением конфигурационного объекта
+     * создаёт служебные компоненты, параметризирует ими билдер контроллера банкомата, создаёт и запускает контроллер.
      */
     public static void main (String[] args) {
         final var config = ConfigManager.getConfig(args);

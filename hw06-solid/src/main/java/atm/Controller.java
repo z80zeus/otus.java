@@ -86,6 +86,7 @@ public class Controller {
      * Получить конфигурацию проекта.
      * @return Конфигурационный объект, переданный контроллеру при конструировании.
      */
+    @SuppressWarnings("unused")
     public ConfigInterface getConfig() {
         return config;
     }
@@ -111,11 +112,9 @@ public class Controller {
     /**
      * Установить идентификатор пользователя, для которого в банкомате открыта сеесия.
      * @param uuid UID пользователя.
-     * @return Ссылка на текущий объект-контроллер для построения цепочек вызовов.
      */
-    public Controller setUuid(String uuid) {
+    public void setUuid(String uuid) {
         this.uuid = uuid;
-        return this;
     }
 
     /**
@@ -181,6 +180,7 @@ public class Controller {
      * @param config Объект, содержащий конфигурацию проекта.
      * @param cashBox Объект, управляющий сейфом банкомата.
      * @param accountService Сервис, работающий с учётными записями пользователей.
+     * @param viewFactory, Фабрика экранных форм.
      */
     private Controller(ConfigInterface config,
                        CashBox cashBox,

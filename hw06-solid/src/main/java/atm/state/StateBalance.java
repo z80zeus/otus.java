@@ -2,7 +2,7 @@ package atm.state;
 
 import atm.Controller;
 import atm.Operations;
-import atm.view.ViewBalance;
+import atm.view.ViewBalanceConsole;
 
 import java.util.concurrent.Callable;
 
@@ -49,11 +49,11 @@ public class StateBalance extends State implements Callable<Void> {
      */
     protected StateBalance(Controller atm) {
         super(atm);
-        view = (ViewBalance) atm.getViewFactory().createView(Operations.Balance, this);
+        view = (ViewBalanceConsole) atm.getViewFactory().createView(Operations.Balance, this);
     }
 
     /**
      * Экранная форма, соответствующая состоянию.
      */
-    private final ViewBalance view;
+    private final ViewBalanceConsole view;
 }
