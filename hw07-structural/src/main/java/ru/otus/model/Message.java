@@ -14,14 +14,15 @@ public class Message {
     private final String field10;
     private final String field11;
     private final String field12;
-    private final ObjectForMessage field11;
+    private final ObjectForMessage field13;
 
     //todo: 1. Добавить поля field11 - field13 (для field13 используйте класс ObjectForMessage)
 
     private Message(long id,
                     String field1, String field2, String field3, String field4, String field5,
                     String field6, String field7, String field8, String field9, String field10,
-                    String field11, String field12, ObjectForMessage field13) {
+                    String field11, String field12,
+                    ObjectForMessage field13) {
         this.id = id;
         this.field1 = field1;
         this.field2 = field2;
@@ -149,7 +150,7 @@ public class Message {
         private String field9;
         private String field10;
         private String field11;
-        private String field11;
+        private String field12;
         private ObjectForMessage field13;
 
         public Builder(long id) {
