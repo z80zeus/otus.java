@@ -1,17 +1,17 @@
-package atm.account;
+package atm.dao;
 
 import atm.config.ConfigInterface;
 
 /**
  * Класс сервисных функций для работы со службой доступа к данным.
  */
-public class AccountDAO {
+public class DAO {
     /**
      * Фабрика создаёт объект доступа к данным на основе конфигурации.
      * @param cfg Конфигурационный объект.
      * @return Объект доступа к данным.
      */
-    public static AccountDAOInterface createDAO(@SuppressWarnings("unused") ConfigInterface cfg) {
-        return new AccountDAODefault();
+    public static DAOInterface createDAO(@SuppressWarnings("unused") ConfigInterface cfg) {
+        return new DAODefault();
     }
 }

@@ -1,4 +1,6 @@
-package atm;
+package atm.account;
+
+import java.math.BigInteger;
 
 /**
  * Интерфейс сервисов доступа к учётной записи пользователя.

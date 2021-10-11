@@ -1,6 +1,7 @@
 package atm;
 
-import atm.account.AccountService;
+import atm.account.AccountServiceInterface;
+import atm.cashBox.CashBoxInterface;
 import atm.config.ConfigInterface;
 import atm.state.State;
 import atm.state.States;
@@ -13,6 +14,7 @@ import atm.view.ViewFactoryInterface;
  * Содержит ссылки на прочие элементы системы.
  */
 public class Controller {
+
     /**
      * Функция возвращает объект класса-билдера контроллера.
      * @return Объект-строитель.
@@ -43,7 +45,7 @@ public class Controller {
          * @param cashBox Ссылка на объект, управляющий выдачей-приёмом наличных.
          * @return Ссылка на текущий объект-билдер для построения цепочек вызовов.
          */
-        public ControllerBuilder setCashBox(CashBox cashBox) {
+        public ControllerBuilder setCashBox(CashBoxInterface cashBox) {
             this.cashBox = cashBox;
             return this;
         }
@@ -53,7 +55,7 @@ public class Controller {
          * @param accountService Сервис, работающий с аккаунтом клиента.
          * @return Ссылка на текущий объект-билдер для построения цепочек вызовов.
          */
-        public ControllerBuilder setAccountService(AccountService accountService) {
+        public ControllerBuilder setAccountService(AccountServiceInterface accountService) {
             this.accountService = accountService;
             return this;
         }
@@ -77,8 +79,8 @@ public class Controller {
         }
 
         private ConfigInterface config = null;
-        private CashBox cashBox = null;
-        private AccountService accountService = null;
+        private CashBoxInterface cashBox = null;
+        private AccountServiceInterface accountService = null;
         private ViewFactoryInterface viewFactory = null;
     }
 
@@ -129,7 +131,7 @@ public class Controller {
      * Получить объект управляющий боксом для наличных.
      * @return Объект бокс для наличных.
      */
-    public CashBox getCashBox() {
+    public CashBoxInterface getCashBox() {
         return cashBox;
     }
 
@@ -137,7 +139,7 @@ public class Controller {
      * Получить сервис, работающий с учётными записями клиентов.
      * @return Сервис работы с учётными записями.
      */
-    public AccountService getAccountService() { return accountService; }
+    public AccountServiceInterface getAccountService() { return accountService; }
 
     /**
      * Получить фабрику экранных форм.
@@ -158,16 +160,17 @@ public class Controller {
     /**
      * Объект управляющий сейфом банкомата.
      */
-    private final CashBox cashBox;
+    private final CashBoxInterface cashBox;
 
     /**
      * Служба работы с учётной записью пользователя.
      */
-    private final AccountService accountService;
+    private final AccountServiceInterface accountService;
 
     /**
      * Текущее состояние контроллера банкомата.
      */
+    @SuppressWarnings("FieldCanBeLocal")
     private State state = null;
 
     /**
@@ -183,8 +186,8 @@ public class Controller {
      * @param viewFactory, Фабрика экранных форм.
      */
     private Controller(ConfigInterface config,
-                       CashBox cashBox,
-                       AccountService accountService,
+                       CashBoxInterface cashBox,
+                       AccountServiceInterface accountService,
                        ViewFactoryInterface viewFactory) {
         this.config = config;
         this.cashBox = cashBox;

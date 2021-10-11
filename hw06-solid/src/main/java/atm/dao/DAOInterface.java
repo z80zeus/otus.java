@@ -1,4 +1,4 @@
-package atm.account;
+package atm.dao;
 
 /**
  * Интерфейс объектов доступа к данным клиента.
@@ -6,5 +6,5 @@ package atm.account;
  * Чтобы описать, эти методы нужно разработать и структуру аккаунта, но в учебном примере надо было где-то остановиться.
  * Этот интерфейс является границей учебного примера.
  */
-public interface AccountDAOInterface {
+public interface DAOInterface {
 }

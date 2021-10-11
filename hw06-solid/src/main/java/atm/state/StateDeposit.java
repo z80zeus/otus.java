@@ -25,11 +25,12 @@ public class StateDeposit extends State implements Callable<Void> {
     /**
      * Метод интерфейса Callable. Вызывается экранной формой по команде пользователя о завершении внесения средств.
      * Если пользователь поместил в сейф-машину банкноты - выясняет сумму и вносит её на счёт.
-     * В случае ошибки переключает контроллер в состояние "Обработка ошибки".
+     * В случае ошибки переключает контроллер в состояние "Обработка ошибки" и возвращает внесённые средства.
      */
     @Override
     public Void call() {
         final var depoValue = atm.getCashBox().takeIn();
+        atm.getCashBox().close();
         if (depoValue.isPresent()) {
             try {
                 atm.getAccountService().deposit(atm.getUuid(), depoValue.get());
@@ -39,6 +40,7 @@ public class StateDeposit extends State implements Callable<Void> {
             catch (IllegalAccessException e) {
                 view.hide();
                 atm.setState(States.createState(Operations.Error, atm, e.getMessage()));
+                atm.getCashBox().reject();
             }
         }
         return null;

@@ -1,5 +1,7 @@
 package atm.account;
 
+import atm.dao.DAOInterface;
+
 import java.math.BigInteger;
 import java.util.Random;
 
@@ -7,24 +9,18 @@ import java.util.Random;
  * Служба работы с аккаунтом пользователя.
  */
 @SuppressWarnings("ClassCanBeRecord")
-public class AccountService implements AccountServiceInterface {
-    /**
-     * При конструировании сервису передаётся объект доступа к данным.
-     * Сервис создаётся фабрикой, поэтому конструктор защищён.
-     * @param dao Объект, реализующий интерфейс доступа к данным.
-     */
-    protected AccountService(AccountDAOInterface dao) {
-        this.dao = dao;
-    }
-
+public class AccountServiceDefault implements AccountServiceInterface {
     /**
      * Запрос баланса пользователя.
      * @param uuid Идентификатор пользователя.
      * @return Баланс пользователя.
      * @throws IllegalAccessException Пользователь uuid не имеет прав для осуществления операции.
      */
+    @SuppressWarnings("RedundantThrows")
+    @Override
     public BigInteger balance(@SuppressWarnings("unused") String uuid) throws IllegalAccessException {
-        // В реальном проекте здесь должен быть код работы с DAO. Заглушка игнорирует параметры и выдаёт случайное число.
+        // В реальном проекте здесь должен быть код работы с DAO.
+        // Заглушка игнорирует параметры и выдаёт случайное число.
         return randomInsideMillion();
     }
 
@@ -36,10 +32,12 @@ public class AccountService implements AccountServiceInterface {
      * @throws IllegalAccessException Пользователь uuid не имеет прав для осуществления операции.
      * @throws IllegalStateException Состояние счёта не позволяет завершить операцию (недостаточно средств?)
      */
+    @Override
     @SuppressWarnings("UnusedReturnValue")
     public BigInteger cash(@SuppressWarnings("unused") String uuid,
                            @SuppressWarnings("unused") BigInteger cash) throws IllegalAccessException, IllegalStateException {
-        // В реальном проекте здесь должен быть код работы с DAO. Заглушка игнорирует параметры и выдаёт случайное число.
+        // В реальном проекте здесь должен быть код работы с DAO.
+        // Заглушка игнорирует параметры и выдаёт случайное число.
         return randomInsideMillion();
     }
 
@@ -50,10 +48,12 @@ public class AccountService implements AccountServiceInterface {
      * @return Остаток на счёте после совершения операция внесения наличных.
      * @throws IllegalAccessException Пользователь uuid не имеет прав для осуществления операции.
      */
-    @SuppressWarnings("UnusedReturnValue")
+    @Override
+    @SuppressWarnings({"UnusedReturnValue", "RedundantThrows"})
     public BigInteger deposit(@SuppressWarnings("unused") String uuid,
                               @SuppressWarnings("unused") BigInteger depo) throws IllegalAccessException {
-        // В реальном проекте здесь должен быть код работы с DAO. Заглушка игнорирует параметры и возвращает случайное число.
+        // В реальном проекте здесь должен быть код работы с DAO.
+        // Заглушка игнорирует параметры и возвращает случайное число.
         return randomInsideMillion();
     }
 
@@ -62,8 +62,20 @@ public class AccountService implements AccountServiceInterface {
      * @param uuid UID пользователя, который пытается войти в систему.
      * @throws IllegalAccessException Пользователь uuid не имеет прав для входа в систему.
      */
+    @SuppressWarnings("RedundantThrows")
+    @Override
     public void login(@SuppressWarnings("unused") String uuid) throws IllegalAccessException {
-        // В реальном проекте здесь должен быть код работы с DAO. Заглушка игнорирует параметры и пускает всех.
+        // В реальном проекте здесь должен быть код работы с DAO.
+        // Заглушка игнорирует параметры и пускает всех.
+    }
+
+    /**
+     * При конструировании сервису передаётся объект доступа к данным.
+     * Сервис создаётся фабрикой, поэтому конструктор защищён.
+     * @param dao Объект, реализующий интерфейс доступа к данным.
+     */
+    protected AccountServiceDefault(DAOInterface dao) {
+        this.dao = dao;
     }
 
     /**
@@ -76,5 +88,5 @@ public class AccountService implements AccountServiceInterface {
     }
 
     @SuppressWarnings({"LocalVariable", "FieldCanBeLocal", "unused"})
-    private final AccountDAOInterface dao;
+    private final DAOInterface dao;
 }
