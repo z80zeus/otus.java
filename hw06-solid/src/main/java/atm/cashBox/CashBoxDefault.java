@@ -7,7 +7,7 @@ import java.util.Random;
 /**
  * Класс, объект которого управляет сейфом банкомата.
  */
-public class CashBox {
+public class CashBox implements CashBoxInterface {
 
     /**
      * Выдача наличных.

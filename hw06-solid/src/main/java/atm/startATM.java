@@ -16,7 +16,7 @@ public class startATM {
      */
     public static void main (String[] args) {
         final var config = ConfigManager.getConfig(args);
-        final var cashBox = new CashBox();
+        final var cashBox = CashBox.createCashBox(config);
         final var accountDAO = AccountDAO.createDAO(config);
         final var accountService = new AccountService(accountDAO);
         final var viewFactory = ViewAbstractFactory.createFactory(config);
