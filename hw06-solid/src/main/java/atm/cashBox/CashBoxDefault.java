@@ -1,8 +1,7 @@
 package atm.cashBox;
 
 import java.math.BigInteger;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Класс, объект которого управляет сейфом банкомата.
@@ -11,17 +10,35 @@ public class CashBoxDefault implements CashBoxInterface {
 
     /**
      * Выдача наличных.
+     * Функция:
+     * - выясняет, какими банкнотами следует выдать сумму,
+     * - проверяет наличие необходимого количества банкнот в ячейках и если необходимое количество банкнот присутствует,
+     * - даёт команду ячейкам выдать банкноты.
      * @param cash Сумма, которую следует выдать.
+     * @throws IllegalStateException Недостаточно банкнот для выдачи суммы.
      */
     @Override
     public void giveOut(BigInteger cash) {
+        final var bankNotesToGiveOut = new TreeMap<Integer, Integer>();
+
         for (var bankNote : bankNotes) {
             var num = cash.divide(BigInteger.valueOf(bankNote));
             if (!num.equals(BigInteger.valueOf(0)))
-                // Этот вывод - не штатный, а отладочный, для примера. Иллюстрирует набор купюр сейфом.
-                // Поэтому находится здесь, а не в экранной форме.
-                System.out.println("Bank note " + bankNote + ": " + num);
+                if (banknotesBoxes.get(bankNote).getBanknotesNumber() >= num.longValue()) {
+                    bankNotesToGiveOut.put(bankNote, num.intValue());
+                }
+                else
+                    throw new IllegalStateException("Not enough banknotes");
             cash = cash.remainder(BigInteger.valueOf(bankNote));
+        }
+
+        for (var banknote2number: bankNotesToGiveOut.entrySet()) {
+            final var bankNote = banknote2number.getKey();
+            final var num = banknote2number.getValue();
+            // Этот вывод - не штатный, а отладочный, для примера. Иллюстрирует набор купюр сейфом.
+            // Поэтому находится здесь, а не в экранной форме.
+            System.out.println("Bank note " + bankNote + ": " + num);
+            banknotesBoxes.get(bankNote).ejectBanknotes(num);
         }
     }
 
@@ -74,6 +91,14 @@ public class CashBoxDefault implements CashBoxInterface {
         System.out.println("Total: " + sum);
         return Optional.of(BigInteger.valueOf(sum));
     }
+
+    protected CashBoxDefault() {
+        banknotesBoxes = new HashMap<Integer, BanknoteBox>();
+        for (var bankNote: bankNotes)
+            banknotesBoxes.put(bankNote, new BanknoteBox(2500));
+    }
+
+    private final Map<Integer, BanknoteBox> banknotesBoxes;
 
     /**
      * Номиналы банкнот в обращении.
