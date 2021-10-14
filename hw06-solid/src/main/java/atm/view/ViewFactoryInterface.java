@@ -14,5 +14,5 @@ public interface ViewFactoryInterface {
      * @param args Дополнительные аргументы, которые будут переданы экранной форме, если она на них рассчитывает.
      * @return Новая экранная форма.
      */
-    ViewInterface createView(Operations operation, Object controller, Object... args);
+    View createView(Operations operation, Object controller, Object... args);
 }

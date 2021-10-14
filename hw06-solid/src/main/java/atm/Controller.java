@@ -1,8 +1,8 @@
 package atm;
 
-import atm.account.AccountServiceInterface;
-import atm.cashBox.CashBoxInterface;
-import atm.config.ConfigInterface;
+import atm.account.AccountService;
+import atm.cashBox.CashBox;
+import atm.config.Config;
 import atm.state.State;
 import atm.state.States;
 import atm.view.ViewFactoryInterface;
@@ -35,7 +35,7 @@ public class Controller {
          * @param cfg Конфигурационный объект.
          * @return Ссылка на текущий объект-билдер для построения цепочек вызовов.
          */
-        public ControllerBuilder setConfig(ConfigInterface cfg) {
+        public ControllerBuilder setConfig(Config cfg) {
             config = cfg;
             return this;
         }
@@ -45,7 +45,7 @@ public class Controller {
          * @param cashBox Ссылка на объект, управляющий выдачей-приёмом наличных.
          * @return Ссылка на текущий объект-билдер для построения цепочек вызовов.
          */
-        public ControllerBuilder setCashBox(CashBoxInterface cashBox) {
+        public ControllerBuilder setCashBox(CashBox cashBox) {
             this.cashBox = cashBox;
             return this;
         }
@@ -55,7 +55,7 @@ public class Controller {
          * @param accountService Сервис, работающий с аккаунтом клиента.
          * @return Ссылка на текущий объект-билдер для построения цепочек вызовов.
          */
-        public ControllerBuilder setAccountService(AccountServiceInterface accountService) {
+        public ControllerBuilder setAccountService(AccountService accountService) {
             this.accountService = accountService;
             return this;
         }
@@ -78,9 +78,9 @@ public class Controller {
             return new Controller(config, cashBox, accountService, viewFactory);
         }
 
-        private ConfigInterface config = null;
-        private CashBoxInterface cashBox = null;
-        private AccountServiceInterface accountService = null;
+        private Config config = null;
+        private CashBox cashBox = null;
+        private AccountService accountService = null;
         private ViewFactoryInterface viewFactory = null;
     }
 
@@ -89,7 +89,7 @@ public class Controller {
      * @return Конфигурационный объект, переданный контроллеру при конструировании.
      */
     @SuppressWarnings("unused")
-    public ConfigInterface getConfig() {
+    public Config getConfig() {
         return config;
     }
 
@@ -131,7 +131,7 @@ public class Controller {
      * Получить объект управляющий боксом для наличных.
      * @return Объект бокс для наличных.
      */
-    public CashBoxInterface getCashBox() {
+    public CashBox getCashBox() {
         return cashBox;
     }
 
@@ -139,7 +139,7 @@ public class Controller {
      * Получить сервис, работающий с учётными записями клиентов.
      * @return Сервис работы с учётными записями.
      */
-    public AccountServiceInterface getAccountService() { return accountService; }
+    public AccountService getAccountService() { return accountService; }
 
     /**
      * Получить фабрику экранных форм.
@@ -150,7 +150,7 @@ public class Controller {
     /**
      * Конфигурация приложения.
      */
-    private final ConfigInterface config;
+    private final Config config;
 
     /**
      * ID пользователя, работающего в системе.
@@ -160,12 +160,12 @@ public class Controller {
     /**
      * Объект управляющий сейфом банкомата.
      */
-    private final CashBoxInterface cashBox;
+    private final CashBox cashBox;
 
     /**
      * Служба работы с учётной записью пользователя.
      */
-    private final AccountServiceInterface accountService;
+    private final AccountService accountService;
 
     /**
      * Текущее состояние контроллера банкомата.
@@ -185,9 +185,9 @@ public class Controller {
      * @param accountService Сервис, работающий с учётными записями пользователей.
      * @param viewFactory, Фабрика экранных форм.
      */
-    private Controller(ConfigInterface config,
-                       CashBoxInterface cashBox,
-                       AccountServiceInterface accountService,
+    private Controller(Config config,
+                       CashBox cashBox,
+                       AccountService accountService,
                        ViewFactoryInterface viewFactory) {
         this.config = config;
         this.cashBox = cashBox;

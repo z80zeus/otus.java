@@ -1,12 +1,14 @@
 package atm.cashBox;
 
+import atm.config.Config;
+
 import java.math.BigInteger;
 import java.util.*;
 
 /**
  * Класс, объект которого управляет сейфом банкомата.
  */
-public class CashBoxDefault implements CashBoxInterface {
+public class CashBoxImplDefault implements CashBox {
 
     /**
      * Выдача наличных.
@@ -21,10 +23,10 @@ public class CashBoxDefault implements CashBoxInterface {
     public void giveOut(BigInteger cash) {
         final var bankNotesToGiveOut = new TreeMap<Integer, Integer>();
 
-        for (var bankNote : bankNotes) {
+        for (var bankNote : banknoteBoxes.keySet()) {
             var num = cash.divide(BigInteger.valueOf(bankNote));
             if (!num.equals(BigInteger.valueOf(0)))
-                if (banknotesBoxes.get(bankNote).getBanknotesNumber() >= num.longValue()) {
+                if (banknoteBoxes.get(bankNote).getBanknotesNumber() >= num.longValue()) {
                     bankNotesToGiveOut.put(bankNote, num.intValue());
                 }
                 else
@@ -38,7 +40,7 @@ public class CashBoxDefault implements CashBoxInterface {
             // Этот вывод - не штатный, а отладочный, для примера. Иллюстрирует набор купюр сейфом.
             // Поэтому находится здесь, а не в экранной форме.
             System.out.println("Bank note " + bankNote + ": " + num);
-            banknotesBoxes.get(bankNote).ejectBanknotes(num);
+            banknoteBoxes.get(bankNote).ejectBanknotes(num);
         }
     }
 
@@ -68,7 +70,7 @@ public class CashBoxDefault implements CashBoxInterface {
      */
     @Override
     public void reject() {
-        System.out.println("Cash is returned.");
+        System.out.println("Cash is rejected.");
     }
 
     /**
@@ -79,29 +81,39 @@ public class CashBoxDefault implements CashBoxInterface {
     public Optional<BigInteger> takeIn() {
         var sum = 0;
         var rnd = new Random();
-        for (var bankNote: bankNotes) {
+        for (var bankNote: banknoteBoxes.keySet()) {
             var num = rnd.nextInt(10);
             sum += bankNote * num;
+
             // Этот вывод в консоль не является частью пользовательского интерфейса банкомата.
             // Этот вывод просто иллюстрирует работу купюроприёмника, поэтому находится здесь, а не в View.
             System.out.println("Cash: " + bankNote + " = " + num);
         }
+
         // Этот вывод в консоль не является частью пользовательского интерфейса банкомата.
         // Этот вывод просто иллюстрирует работу купюроприёмника, поэтому находится здесь, а не в View.
         System.out.println("Total: " + sum);
-        return Optional.of(BigInteger.valueOf(sum));
-    }
 
-    protected CashBoxDefault() {
-        banknotesBoxes = new HashMap<Integer, BanknoteBox>();
-        for (var bankNote: bankNotes)
-            banknotesBoxes.put(bankNote, new BanknoteBox(2500));
+        return Optional.ofNullable(sum != 0? BigInteger.valueOf(sum) : null);
     }
-
-    private final Map<Integer, BanknoteBox> banknotesBoxes;
 
     /**
-     * Номиналы банкнот в обращении.
+     * Конструктор на основе конфигурационных данных создаёт ячейки для банкнот.
+     * @param cfg Объект конфигурации проекта.
      */
-    private static final int[] bankNotes = { 5000, 1000, 500, 100, 50, 10, 5, 1 };
+    protected CashBoxImplDefault(Config cfg) {
+        var banknoteBoxesObject = cfg.getValue("banknoteBoxes");
+
+        if (!(banknoteBoxesObject instanceof Map))
+            throw new IllegalArgumentException("Config error: bad type of banknoteBoxes. Map<Integer,Long> is need.");
+
+        @SuppressWarnings("unchecked")
+        Map<Integer, Long> banknoteBoxesMap = (Map<Integer, Long>) banknoteBoxesObject;
+
+
+        for (var banknoteBox: banknoteBoxesMap.entrySet())
+            banknoteBoxes.put(banknoteBox.getKey(), new BanknoteBoxImpl(banknoteBox.getValue()));
+    }
+
+    private final Map<Integer, BanknoteBoxImpl> banknoteBoxes = new TreeMap<>();
 }

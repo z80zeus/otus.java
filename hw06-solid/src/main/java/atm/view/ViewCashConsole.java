@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 /**
  * Экранная форма запроса через консоль суммы снятия наличных
  */
-public class ViewCashConsole implements ViewInterface {
+public class ViewCashConsole implements View {
 
     /**
      * Показать экранную форму.
@@ -20,7 +20,7 @@ public class ViewCashConsole implements ViewInterface {
         System.out.print("Enter the cash volume or just push ENTER to cancel operation: ");
         final var line = streamReader.nextLine();
         if (line.length() <= 0) {
-            controller.accept(Optional.ofNullable(null));
+            controller.accept(Optional.empty());
             return;
         }
         final var cash = BigInteger.valueOf(Long.parseLong(line));

@@ -1,6 +1,6 @@
 package atm.account;
 
-import atm.dao.DAOInterface;
+import atm.dao.DAO;
 
 import java.math.BigInteger;
 import java.util.Random;
@@ -9,7 +9,7 @@ import java.util.Random;
  * Служба работы с аккаунтом пользователя.
  */
 @SuppressWarnings("ClassCanBeRecord")
-public class AccountServiceDefault implements AccountServiceInterface {
+public class AccountServiceDefault implements AccountService {
     /**
      * Запрос баланса пользователя.
      * @param uuid Идентификатор пользователя.
@@ -74,7 +74,7 @@ public class AccountServiceDefault implements AccountServiceInterface {
      * Сервис создаётся фабрикой, поэтому конструктор защищён.
      * @param dao Объект, реализующий интерфейс доступа к данным.
      */
-    protected AccountServiceDefault(DAOInterface dao) {
+    protected AccountServiceDefault(DAO dao) {
         this.dao = dao;
     }
 
@@ -88,5 +88,5 @@ public class AccountServiceDefault implements AccountServiceInterface {
     }
 
     @SuppressWarnings({"LocalVariable", "FieldCanBeLocal", "unused"})
-    private final DAOInterface dao;
+    private final DAO dao;
 }

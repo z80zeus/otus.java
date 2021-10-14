@@ -2,7 +2,7 @@ package atm.state;
 
 import atm.Controller;
 import atm.Operations;
-import atm.view.ViewInterface;
+import atm.view.View;
 
 import java.util.concurrent.Callable;
 
@@ -48,5 +48,5 @@ public class StateError extends State implements Callable<Void> {
     /**
      * Экранная форма, соответствующая состоянию.
      */
-    private final ViewInterface view;
+    private final View view;
 }

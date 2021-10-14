@@ -6,7 +6,7 @@ import java.util.function.Consumer;
 /**
  * Экранная форма "Вход в систему".
  */
-public class ViewLoginConsole implements ViewInterface {
+public class ViewLoginConsole implements View {
 
     /**
      * Показать экранную форму.

@@ -6,7 +6,7 @@ import java.util.concurrent.Callable;
 /**
  * Экранная форма, работающая с пользователем при внесении наличных на счёт.
  */
-public class ViewDepositConsole implements ViewInterface {
+public class ViewDepositConsole implements View {
 
     /**
      * Показать экранную форму.

@@ -3,7 +3,7 @@ package atm.view;
 /**
  * Базовый интерфейс всех экранных форм.
  */
-public interface ViewInterface {
+public interface View {
 
     /**
      * Показать экранную форму.

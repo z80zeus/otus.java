@@ -15,7 +15,7 @@ public class ViewFactoryConsole implements ViewFactoryInterface {
      * @return Новая экранная форма.
      */
     @Override
-    public ViewInterface createView(Operations operation, Object controller, Object... args) {
+    public View createView(Operations operation, Object controller, Object... args) {
         return switch (operation) {
             case Login -> new ViewLoginConsole(controller);
             case Logout -> new ViewLogoutConsole(controller);

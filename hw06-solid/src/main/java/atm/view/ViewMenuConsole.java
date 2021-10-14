@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 /**
  * Экранная форма "Меню".
  */
-public class ViewMenuConsole implements ViewInterface{
+public class ViewMenuConsole implements View {
 
     /**
      * Показать экранную форму.

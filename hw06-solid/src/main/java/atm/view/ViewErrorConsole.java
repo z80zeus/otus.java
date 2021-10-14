@@ -6,7 +6,7 @@ import java.util.concurrent.Callable;
 /**
  * Экранная форма, показывающая сообщение об ошибке в консоль.
  */
-public class ViewErrorConsole implements ViewInterface {
+public class ViewErrorConsole implements View {
 
     /**
      * Показать экранную форму.

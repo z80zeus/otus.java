@@ -11,7 +11,7 @@ public class ConfigManager {
      * @param args Строка, на основе которой фабрика конструирует конфигурационный объект.
      * @return Объект, реализующий интерфейс конфигурационного объекта.
      */
-    public static ConfigInterface getConfig(@SuppressWarnings("unused") String[] args) {
-      return new ConfigDefault(); // В учебном примере всегда возвращается конфигурационный объект по-умолчанию.
+    public static Config getConfig(@SuppressWarnings("unused") String[] args) {
+      return new ConfigImplDefault(); // В учебном примере всегда возвращается конфигурационный объект по-умолчанию.
     }
 }

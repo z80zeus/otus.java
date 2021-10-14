@@ -1,6 +1,6 @@
 package atm.view;
 
-import atm.config.ConfigInterface;
+import atm.config.Config;
 
 /**
  * Абстрактная фабрика фабрик экранных форм.
@@ -13,7 +13,7 @@ public class ViewAbstractFactory {
      * @param cfg Конфигурация приложения.
      * @return Фабрика, создающая экранные формы в соответствии с конфигурацией приложения.
      */
-    public static ViewFactoryInterface createFactory(@SuppressWarnings("unused") ConfigInterface cfg) {
+    public static ViewFactoryInterface createFactory(@SuppressWarnings("unused") Config cfg) {
         return new ViewFactoryConsole();
     }
 }

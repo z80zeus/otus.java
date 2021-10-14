@@ -6,7 +6,7 @@ import java.util.concurrent.Callable;
 /**
  * Экранная форма "Выход из системы".
  */
-public class ViewLogoutConsole implements ViewInterface {
+public class ViewLogoutConsole implements View {
 
     /**
      * Показать экранную форму.

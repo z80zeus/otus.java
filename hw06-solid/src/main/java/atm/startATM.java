@@ -1,9 +1,9 @@
 package atm;
 
-import atm.account.AccountService;
-import atm.cashBox.CashBox;
+import atm.account.AccountServiceManager;
+import atm.cashBox.CashBoxService;
 import atm.config.ConfigManager;
-import atm.dao.DAO;
+import atm.dao.DAOManager;
 import atm.view.ViewAbstractFactory;
 
 /**
@@ -17,9 +17,9 @@ public class startATM {
      */
     public static void main (String[] args) {
         final var config = ConfigManager.getConfig(args);
-        final var cashBox = CashBox.createCashBox(config);
-        final var dao = DAO.createDAO(config);
-        final var accountService = AccountService.createAccountService(config, dao);
+        final var cashBox = CashBoxService.createCashBox(config);
+        final var dao = DAOManager.createDAO(config);
+        final var accountService = AccountServiceManager.createAccountService(config, dao);
         final var viewFactory = ViewAbstractFactory.createFactory(config);
         final var controller = Controller.getBuilder()
                 .setConfig(config)

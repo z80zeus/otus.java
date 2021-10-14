@@ -2,7 +2,7 @@ package atm.state;
 
 import atm.Controller;
 import atm.Operations;
-import atm.view.ViewInterface;
+import atm.view.View;
 
 import java.math.BigInteger;
 import java.util.Optional;
@@ -70,5 +70,5 @@ public class StateCash extends State implements Consumer<Optional<BigInteger>> {
     /**
      * Экранная форма, соответствующая состоянию.
      */
-    private final ViewInterface view;
+    private final View view;
 }

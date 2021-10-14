@@ -1,12 +1,38 @@
 package atm.cashBox;
 
-import atm.config.ConfigInterface;
+import java.math.BigInteger;
+import java.util.Optional;
 
 /**
- * Служебный класс
+ * Интерфейс сейфовой машины банкомата.
  */
-public class CashBox {
-    public static CashBoxInterface createCashBox(@SuppressWarnings("unused") ConfigInterface cfg) {
-        return new CashBoxDefault();
-    }
+public interface CashBox {
+
+    /**
+     * Выдать наличные.
+     * @param cash Сумма для выдачи.
+     */
+    void giveOut(BigInteger cash);
+
+    /**
+     * Открыть купюроприёмник.
+     */
+    void open();
+
+    /**
+     * Закрыть купюроприёмник.
+     */
+    void close();
+
+    /**
+     * Вернуть внесённые средства.
+     */
+    void reject();
+
+    /**
+     * Принять наличные.
+     * @return Опциональная сумма внесённых средств.
+     */
+    Optional<BigInteger> takeIn();
+
 }

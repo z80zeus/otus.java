@@ -7,7 +7,7 @@ import java.util.concurrent.Callable;
 /**
  * Экранная форма показа баланса в консоли.
  */
-public class ViewBalanceConsole implements ViewInterface {
+public class ViewBalanceConsole implements View {
 
     /**
      * Показать экранную форму.

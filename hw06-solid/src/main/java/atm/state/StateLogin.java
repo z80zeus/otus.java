@@ -2,7 +2,7 @@ package atm.state;
 
 import atm.Controller;
 import atm.Operations;
-import atm.view.ViewInterface;
+import atm.view.View;
 
 import java.util.function.Consumer;
 
@@ -53,5 +53,5 @@ public class StateLogin extends State implements Consumer<String> {
     /**
      * Экранная форма соответствующая состоянию.
      */
-    private final ViewInterface view;
+    private final View view;
 }
