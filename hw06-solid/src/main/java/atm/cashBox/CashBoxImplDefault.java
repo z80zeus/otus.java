@@ -18,6 +18,7 @@ public class CashBoxImplDefault implements CashBox {
      * - даёт команду ячейкам выдать банкноты.
      * @param cash Сумма, которую следует выдать.
      * @throws IllegalStateException Недостаточно банкнот для выдачи суммы.
+     * @throws IllegalArgumentException Сумма не кратная номиналам банкнот.
      */
     @Override
     public void giveOut(BigInteger cash) {
@@ -33,6 +34,8 @@ public class CashBoxImplDefault implements CashBox {
                     throw new IllegalStateException("Not enough banknotes");
             cash = cash.remainder(BigInteger.valueOf(bankNote));
         }
+        if (!cash.equals(BigInteger.ZERO))
+            throw new IllegalArgumentException("Bad value.");
 
         for (var banknote2number: bankNotesToGiveOut.entrySet()) {
             final var bankNote = banknote2number.getKey();
@@ -115,5 +118,8 @@ public class CashBoxImplDefault implements CashBox {
             banknoteBoxes.put(banknoteBox.getKey(), new BanknoteBoxImpl(banknoteBox.getValue()));
     }
 
+    /**
+     * Словарь сопоставления номиналов купюр ячейкам, в которых эти номиналы хранятся.
+     */
     private final Map<Integer, BanknoteBoxImpl> banknoteBoxes = new TreeMap<>();
 }

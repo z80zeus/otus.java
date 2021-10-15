@@ -12,19 +12,19 @@ public class BanknoteBoxImpl implements BanknoteBox {
      * @return Количество банкнот в ячейке.
      */
     @Override
-    public long getBanknotesNumber() {
+    public int getBanknotesNumber() {
         // В реальном проекте количество банкнот считывается из аппаратного контроллера ячейки,
         // используя deviceId.
         return banknotesNumber;
     }
 
     /**
-     * Переместить из ячейки в бокс для выдачи указанное количество банкнот.
+     * Переместить указанное количество банкнот из ячейки в бокс для выдачи.
      * @param banknotesToEject Количество банкнот для выдачи.
      * @throws IllegalArgumentException В ячейке нет достаточного количества банкнот.
      */
     @Override
-    public void ejectBanknotes(long banknotesToEject) throws IllegalArgumentException {
+    public void ejectBanknotes(int banknotesToEject) throws IllegalArgumentException {
         if (banknotesToEject > banknotesNumber) throw new IllegalArgumentException("Not enough banknotes");
         banknotesNumber -= banknotesToEject;
     }
@@ -40,7 +40,7 @@ public class BanknoteBoxImpl implements BanknoteBox {
     /**
      * Аппаратный идентификатор ячейки во внутренней сети банкомата.
      */
-    @SuppressWarnings("FieldCanBeLocal")
+    @SuppressWarnings({"FieldCanBeLocal", "unused"})
     private final long deviceId;
 
     /**

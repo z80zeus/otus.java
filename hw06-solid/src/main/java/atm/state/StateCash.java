@@ -43,7 +43,7 @@ public class StateCash extends State implements Consumer<Optional<BigInteger>> {
             atm.getAccountService().cash(atm.getUuid(), cashValue);
             atm.getCashBox().giveOut(cashValue);
             switchControllerToMenu();
-        } catch (IllegalAccessException e) {
+        } catch (IllegalAccessException | IllegalArgumentException e) {
             view.hide();
             atm.setState(States.createState(Operations.Error, atm, e.getMessage()));
         }

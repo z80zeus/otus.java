@@ -6,7 +6,7 @@ import atm.config.Config;
  * Служебный класс
  */
 public class CashBoxService {
-    public static CashBox createCashBox(@SuppressWarnings("unused") Config cfg) {
+    public static CashBox createCashBox(Config cfg) {
         return new CashBoxImplDefault(cfg);
     }
 }

@@ -8,12 +8,12 @@ public interface BanknoteBox {
      * Получить текущее количество банкнот в ячейке.
      * @return Количество банкнот в ячейке.
      */
-    long getBanknotesNumber();
+    int getBanknotesNumber();
 
     /**
-     * Переместить из ячейки в бокс для выдачи указанное количество банкнот.
+     * Переместить указанное количество банкнот из ячейки - в бокс для выдачи.
      * @param banknotesToEject Количество банкнот для выдачи.
      * @throws IllegalArgumentException В ячейке нет достаточного количества банкнот.
      */
-    void ejectBanknotes(long banknotesToEject) throws IllegalArgumentException;
+    void ejectBanknotes(int banknotesToEject) throws IllegalArgumentException;
 }
