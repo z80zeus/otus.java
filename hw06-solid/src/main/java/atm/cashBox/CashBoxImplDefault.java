@@ -104,22 +104,12 @@ public class CashBoxImplDefault implements CashBox {
      * Конструктор на основе конфигурационных данных создаёт ячейки для банкнот.
      * @param cfg Объект конфигурации проекта.
      */
-    protected CashBoxImplDefault(Config cfg) {
-        var banknoteBoxesObject = cfg.getValue("banknoteBoxes");
-
-        if (!(banknoteBoxesObject instanceof Map))
-            throw new IllegalArgumentException("Config error: bad type of banknoteBoxes. Map<Integer,Long> is need.");
-
-        @SuppressWarnings("unchecked")
-        Map<Integer, Long> banknoteBoxesMap = (Map<Integer, Long>) banknoteBoxesObject;
-
-
-        for (var banknoteBox: banknoteBoxesMap.entrySet())
-            banknoteBoxes.put(banknoteBox.getKey(), new BanknoteBoxImpl(banknoteBox.getValue()));
+    protected CashBoxImplDefault(Config cfg) throws IllegalArgumentException {
+       banknoteBoxes = BanknoteBoxService.createBanknoteBoxes(cfg);
     }
 
     /**
      * Словарь сопоставления номиналов купюр ячейкам, в которых эти номиналы хранятся.
      */
-    private final Map<Integer, BanknoteBoxImpl> banknoteBoxes = new TreeMap<>();
+    private final Map<Integer, BanknoteBox> banknoteBoxes;
 }
