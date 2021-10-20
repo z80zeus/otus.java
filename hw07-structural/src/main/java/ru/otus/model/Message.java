@@ -1,5 +1,6 @@
 package ru.otus.model;
 
+@SuppressWarnings("ClassCanBeRecord")
 public class Message {
     private final long id;
     private final String field1;
@@ -15,8 +16,6 @@ public class Message {
     private final String field11;
     private final String field12;
     private final ObjectForMessage field13;
-
-    //todo: 1. Добавить поля field11 - field13 (для field13 используйте класс ObjectForMessage)
 
     private Message(long id,
                     String field1, String field2, String field3, String field4, String field5,
@@ -55,26 +54,32 @@ public class Message {
         return field3;
     }
 
+    @SuppressWarnings("unused")
     public String getField4() {
         return field4;
     }
 
+    @SuppressWarnings("unused")
     public String getField5() {
         return field5;
     }
 
+    @SuppressWarnings("unused")
     public String getField6() {
         return field6;
     }
 
+    @SuppressWarnings("unused")
     public String getField7() {
         return field7;
     }
 
+    @SuppressWarnings("unused")
     public String getField8() {
         return field8;
     }
 
+    @SuppressWarnings("unused")
     public String getField9() {
         return field9;
     }
@@ -197,6 +202,7 @@ public class Message {
             return this;
         }
 
+        @SuppressWarnings("unused")
         public Builder field5(String field5) {
             this.field5 = field5;
             return this;
@@ -227,11 +233,13 @@ public class Message {
             return this;
         }
 
+        @SuppressWarnings("UnusedReturnValue")
         public Builder field11(String field11) {
             this.field11 = field11;
             return this;
         }
 
+        @SuppressWarnings("UnusedReturnValue")
         public Builder field12(String field12) {
             this.field12 = field12;
             return this;
