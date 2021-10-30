@@ -1,7 +1,6 @@
 package ru.otus;
 
 import org.assertj.core.api.AssertionsForClassTypes;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -17,10 +16,7 @@ import java.nio.file.Paths;
 
 class ProcessorTest {
 
-    //Надо реализовать методы классов и убедиться, что тест проходит
-
     @Test
-    @Disabled // Эту аннотацию надо убрать
     @DisplayName("Из файла читается json, обрабатывается, результат сериализуется в строку")
     void processingTest(@TempDir Path tempDir) throws IOException {
         System.out.println(tempDir);
