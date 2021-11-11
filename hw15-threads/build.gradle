@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow'
+}
+
+dependencies {
+    implementation 'ch.qos.logback:logback-classic:1.2.6'
+    implementation 'org.slf4j:slf4j-api:1.7.32'
+}
+
+shadowJar {
+    archiveBaseName.set('pingpong')
+    archiveVersion.set('0.1')
+    archiveClassifier.set('')
+    //noinspection GroovyAssignabilityCheck
+    manifest {
+        attributes 'Main-Class': 'ru.otus.Main'
+    }
+}
+
+tasks.build.dependsOn tasks.shadowJar

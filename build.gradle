@@ -1,0 +1,24 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id "io.spring.dependency-management" version "1.0.11.RELEASE"
+    // Build uber-jar
+    id 'com.github.johnrengelman.shadow' version '6.1.0' apply false
+}
+
+allprojects {
+
+    group "ru.otus"
+
+    repositories {
+        mavenCentral()
+    }
+
+    apply plugin: "io.spring.dependency-management"
+    dependencyManagement {
+        dependencies {
+            dependency('ch.qos.logback:logback-classic:1.2.6')
+            dependency('org.slf4j:slf4j-api:1.7.32')
+        }
+    }
+}
