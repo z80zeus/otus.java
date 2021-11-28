@@ -1,0 +1,3 @@
+rootProject.name = 'otusJava'
+include 'hw17-grpc'
+
