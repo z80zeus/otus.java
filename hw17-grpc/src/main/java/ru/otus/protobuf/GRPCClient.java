@@ -32,6 +32,14 @@ public class GRPCClient {
      */
     private static final long SleepDurationMs = 1000;
 
+    /** Последнее значение, поступившее от сервера будет помещаться в нулевой элемент массива,
+     * ссылка на который передастся обработчику потока серверных сообщений StreamObserverImpl.
+     * Этот же массив используется в качестве монитора критической секции в которой разделяется
+     * доступ к последнему значению от сервера со стороны рабочего потока клиента (функции main)
+     * и потока gRPC, обрабатывающего сообщения сервера.
+     */
+    private static final long[] valueFromServer = {0};
+
     /**
      * Точка входа в программу.
      * @param args Аргументы командной строки игнорируются.
@@ -40,13 +48,6 @@ public class GRPCClient {
         ManagedChannel channel = ManagedChannelBuilder.forAddress(SERVER_HOST, SERVER_PORT)
                 .usePlaintext()
                 .build();
-
-        // Последнее значение, поступившее от сервера будет помещаться в нулевой элемент массива,
-        // ссылка на который передастся обработчику потока серверных сообщений StreamObserverImpl.
-        // Этот же массив используется в качестве монитора критической секции в которой разделяется
-        // доступ к последнему значению от сервера со стороны рабочего потока клиента (функции main)
-        // и потока gRPC, обрабатывающего сообщения сервера.
-        long[] valueFromServer = {0};
 
         // Запрос к серверу включает в себя начальное и конечное значения последовательности,
         // которую должен вернуть сервер.
@@ -57,7 +58,6 @@ public class GRPCClient {
         newStub.getValuesStream(request, streamObserver);
 
         for (long i = 0, currentValue = 0; i < 50; i++) {
-            //noinspection SynchronizationOnLocalVariableOrMethodParameter
             synchronized (valueFromServer) {
                 currentValue += valueFromServer[0] + 1;
                 valueFromServer[0] = 0;
