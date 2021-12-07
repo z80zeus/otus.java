@@ -1,27 +1,62 @@
 plugins {
-    id 'java'
+    //support Idea IDE
     id 'idea'
+
+    // Using spring dependency manager event without spring
     id "io.spring.dependency-management" version "1.0.10.RELEASE"
+
+    // Build uber-jar
     id 'com.github.johnrengelman.shadow' version '6.1.0' apply false
+}
+
+idea {
+    project {
+        languageLevel = 15
+    }
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
 }
 
 allprojects {
     group "ru.otus"
-    version '1.0-1'
 
     repositories {
+        mavenLocal()
         mavenCentral()
     }
 
     apply plugin: "io.spring.dependency-management"
     dependencyManagement {
-        dependencies {
-            dependency ("com.google.guava:guava:30.1.1-jre")
-            dependency ('org.junit.jupiter:junit-jupiter-api:5.8.0-M1')
-            dependency ('org.junit.jupiter:junit-jupiter-engine:5.8.0-M1')
-            dependency ('org.assertj:assertj-core:3.20.2')
-            dependency ('org.mockito:mockito-core:3.11.2')
-            dependency ('org.mockito:mockito-junit-jupiter:3.11.2')
+    }
+
+    configurations.all {
+        resolutionStrategy {
+            failOnVersionConflict()
+        }
+        resolutionStrategy {
+            force("javax.servlet:servlet-api:2.4")
+            force("commons-logging:commons-logging:1.1.1")
+            force("commons-lang:commons-lang:2.5")
+            force("org.codehaus.jackson:jackson-core-asl:1.8.8")
+            force("org.codehaus.jackson:jackson-mapper-asl:1.8.3")
+            force("org.codehaus.jettison:jettison:1.1")
+            force("net.java.dev.jna:jna:5.8.0")
         }
     }
+}
+
+//print versions from BOM
+task managedVersions {
+    doLast {
+        dependencyManagement.managedVersions.each {
+            println it
+        }
+    }
+}
+
+//gradle -q hello
+task hello {
+    println 'Hello world!'
 }
