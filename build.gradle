@@ -1,10 +1,7 @@
 plugins {
     //support Idea IDE
     id 'idea'
-
-    // Using spring dependency manager event without spring
     id "io.spring.dependency-management" version "1.0.10.RELEASE"
-
     // Build uber-jar
     id 'com.github.johnrengelman.shadow' version '6.1.0' apply false
 }
@@ -26,7 +23,6 @@ allprojects {
         mavenLocal()
         mavenCentral()
     }
-
     apply plugin: "io.spring.dependency-management"
     dependencyManagement {
     }
