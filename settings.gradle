@@ -1,0 +1,3 @@
+rootProject.name = 'otusJava'
+include 'hw06-solid'
+include 'hw07-structural'
