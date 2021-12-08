@@ -30,6 +30,10 @@ allprojects {
             imports {
                 mavenBom("org.springframework.boot:spring-boot-dependencies:2.5.5")
             }
+            dependency("org.assertj:assertj-core:3.21.0")
+            dependency("org.junit.jupiter:junit-jupiter-api:5.8.2")
+            dependency("org.junit.jupiter:junit-jupiter-engine:5.8.2")
+
             dependency("com.google.guava:guava:${Versions.guava}")
             dependency("org.openjdk.jmh:jmh-core:${Versions.jmh}")
             dependency("org.openjdk.jmh:jmh-generator-annprocess:${Versions.jmh}")

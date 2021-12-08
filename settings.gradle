@@ -1,3 +1,5 @@
 rootProject.name = 'otusJava'
+include 'hw8-io'
+include 'hw15-threads'
 include 'hw17-grpc'
 
