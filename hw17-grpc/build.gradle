@@ -8,14 +8,16 @@ sourceCompatibility = JavaVersion.VERSION_17
 targetCompatibility = JavaVersion.VERSION_17
 
 dependencies {
-    implementation 'io.grpc:grpc-netty:1.42.1'
-    implementation 'io.grpc:grpc-protobuf:1.42.1'
-    implementation 'io.grpc:grpc-stub:1.42.1'
-    implementation 'com.google.protobuf:protobuf-java:3.19.1'
-    implementation 'com.google.errorprone:error_prone_annotations:2.10.0'
-    implementation "org.apache.tomcat:annotations-api:6.0.53"
-//    implementation "org.slf4j:slf4j-log4j12"
-    implementation 'ch.qos.logback:logback-classic'
+    //implementation "org.slf4j:slf4j-log4j12"
+    implementation "com.google.errorprone:error_prone_annotations"
+    implementation "com.google.protobuf:protobuf-java"
+    implementation "io.grpc:grpc-netty"
+    implementation "io.grpc:grpc-protobuf"
+    implementation "io.grpc:grpc-stub"
+    implementation "org.apache.tomcat:tomcat-annotations-api"
+    implementation "org.slf4j:slf4j-api"
+    runtimeOnly 'com.google.protobuf:protobuf-java-util'
+    testImplementation "ch.qos.logback:logback-classic"
 }
 
 /*

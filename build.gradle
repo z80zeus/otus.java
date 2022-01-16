@@ -30,49 +30,47 @@ allprojects {
 //            imports {
 //                mavenBom("org.springframework.boot:spring-boot-dependencies:2.5.5")
 //            }
+
+            //dependency("org.slf4j:slf4j-log4j12:1.7.32")
+            dependency("ch.qos.logback:logback-classic:1.2.10")
+            dependency("com.datastax.oss:java-driver-core:4.13.0")
+            dependency("com.google.code.findbugs:jsr305:3.0.2")
+            dependency("com.google.code.gson:gson:2.8.8")
+            dependency("com.google.errorprone:error_prone_annotations:2.10.0")
+            dependency("com.google.guava:guava:28.2-jre")
+            dependency("com.google.protobuf:protobuf-java-util:3.19.3")
+            dependency("com.google.protobuf:protobuf-java:3.19.3")
+            dependency("com.zaxxer:HikariCP:5.0.1")
+            dependency("io.grpc:grpc-netty:1.42.0")
+            dependency("io.grpc:grpc-protobuf:1.42.0")
+            dependency("io.grpc:grpc-stub:1.42.0")
+            dependency("io.springfox:springfox-boot-starter:3.0.0")
+            dependency("org.apache.tomcat:tomcat-annotations-api:10.1.0-M8")
             dependency("org.assertj:assertj-core:3.21.0")
+            dependency("org.flywaydb:flyway-core:8.4.1")
+            dependency("org.glassfish:javax.json:1.1.4")
             dependency("org.junit.jupiter:junit-jupiter-api:5.8.2")
             dependency("org.junit.jupiter:junit-jupiter-engine:5.8.2")
-
             dependency("org.mockito:mockito-core:4.1.0")
-            dependency('org.mockito:mockito-junit-jupiter:4.1.0')
-
-            dependency("com.google.guava:guava:28.2-jre")
+            dependency("org.mockito:mockito-junit-jupiter:4.1.0")
+            dependency("org.mongodb:bson:4.3.2")
+            dependency("org.mongodb:mongodb-driver-core:4.3.2")
+            dependency("org.mongodb:mongodb-driver-reactivestreams:4.3.2")
+            dependency("org.mongodb:mongodb-driver-sync:4.3.2")
+            dependency("org.neo4j.driver:neo4j-java-driver:4.3.4")
             dependency("org.openjdk.jmh:jmh-core:1.32")
             dependency("org.openjdk.jmh:jmh-generator-annprocess:1.32")
             dependency("org.openjdk.jol:jol-core:0.16")
             dependency("org.ow2.asm:asm-commons:9.1")
-            dependency("org.glassfish:javax.json:1.1.4")
-            dependency("com.google.protobuf:protobuf-java-util:3.12.1")
+            dependency("org.postgresql:postgresql:42.3.1")
+            dependency("org.projectlombok:lombok:1.18.22")
+            dependency("org.slf4j:slf4j-api:1.7.32")
             dependency("org.testcontainers:junit-jupiter:1.15.3")
             dependency("org.testcontainers:postgresql:1.15.3")
-
-            dependency("org.projectlombok:lombok:1.18.22")
-            dependency("com.google.code.gson:gson:2.8.8")
-            dependency("com.datastax.oss:java-driver-core:4.13.0")
-
-            dependency("org.mongodb:mongodb-driver-core:4.3.2")
-            dependency("org.mongodb:mongodb-driver-sync:4.3.2")
-            dependency("org.mongodb:bson:4.3.2")
-
-            dependency("org.mongodb:mongodb-driver-reactivestreams:4.3.2")
-
-            dependency("org.neo4j.driver:neo4j-java-driver:4.3.4")
-
-            dependency("redis.clients:jedis:3.7.0")
-
+            dependency("org.webjars:bootstrap:4.4.1-1")
             dependency("org.webjars:sockjs-client:1.1.2")
             dependency("org.webjars:stomp-websocket:2.3.3-1")
-            dependency("org.webjars:bootstrap:4.4.1-1")
-            dependency("io.springfox:springfox-boot-starter:3.0.0")
-
-            dependency("com.google.code.findbugs:jsr305:3.0.2")
-
-            dependency("io.grpc:grpc-netty:1.42.0")
-            dependency("io.grpc:grpc-protobuf:1.42.0")
-            dependency("io.grpc:grpc-stub:1.42.0")
-
-            dependency("org.slf4j:slf4j-log4j12:1.7.32")
+            dependency("redis.clients:jedis:3.7.0")
         }
     }
 
