@@ -11,44 +11,50 @@ import java.util.List;
 
 public class EntityClassMetaDataImpl<T> implements EntityClassMetaData<T> {
     private static final Logger logger = LoggerFactory.getLogger(EntityClassMetaDataImpl.class);
-    private final Class<T> tClass;
 
-    public EntityClassMetaDataImpl(Class<T> clazz) {
-        tClass = clazz;
+    private final String tClassName;
+    private final java.lang.reflect.Constructor<T> tConstructor;
+    private final Field tIdField;
+    private final List<Field> tAllFields;
+    private final List<Field> tFieldsWithoutId;
+
+    public EntityClassMetaDataImpl(Class<T> clazz) throws NoSuchMethodException {
+
+        tClassName = clazz.getSimpleName();
+        tConstructor = clazz.getDeclaredConstructor();
+
+        tIdField = Arrays.stream(clazz.getDeclaredFields())
+                .filter(field -> field.isAnnotationPresent(Id.class))
+                .findFirst()
+                .orElse(null);
+
+        tAllFields = Arrays.stream(clazz.getDeclaredFields()).toList();
+
+        tFieldsWithoutId = Arrays.stream(clazz.getDeclaredFields())
+                .filter(field -> !field.isAnnotationPresent(Id.class))
+                .toList();
     }
 
     @Override
     public String getName() {
-        return tClass.getSimpleName();
+        return tClassName;
     }
 
     @Override
     public Constructor<T> getConstructor() {
-        try {
-            return tClass.getDeclaredConstructor();
-        } catch (NoSuchMethodException e) {
-            logger.error(e.getMessage());
-            return null;
-        }
+        return tConstructor;
     }
 
     @Override
     public Field getIdField() {
-        return Arrays.stream(tClass.getDeclaredFields())
-                .filter(field -> field.isAnnotationPresent(Id.class))
-                .findFirst()
-                .orElse(null);
+        return tIdField;
     }
 
     @Override
-    public List<Field> getAllFields() {
-        return Arrays.stream(tClass.getDeclaredFields()).toList();
-    }
+    public List<Field> getAllFields() { return tAllFields; }
 
     @Override
     public List<Field> getFieldsWithoutId() {
-        return Arrays.stream(tClass.getDeclaredFields())
-                .filter(field -> !field.isAnnotationPresent(Id.class))
-                .toList();
+        return tFieldsWithoutId;
     }
 }

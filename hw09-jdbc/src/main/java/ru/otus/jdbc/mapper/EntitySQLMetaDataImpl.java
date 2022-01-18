@@ -11,14 +11,16 @@ public class EntitySQLMetaDataImpl<T> implements EntitySQLMetaData<T> {
 
     public EntitySQLMetaDataImpl(EntityClassMetaData<T> entityClassMetaData) {
         tMetaData = entityClassMetaData;
-        selectAllSql = "select id," + getFieldsNamesWithoutId(",") +" from " + tMetaData.getName();
-        selectByIdSql = "select id," + getFieldsNamesWithoutId(",") + " from " + tMetaData.getName() + " where id = ?";
+        selectAllSql = "select " + getAllFieldsNames(",") + " from " + tMetaData.getName();
+        selectByIdSql = "select " + getAllFieldsNames(",") + " from " + tMetaData.getName()
+                + " where " + tMetaData.getIdField().getName() + " = ?";
 
         var qMarks = "?,".repeat(tMetaData.getFieldsWithoutId().size());
-        insertSql = "insert into " + tMetaData.getName() + " (" + getFieldsNamesWithoutId(",") + ") values (" +
-                qMarks.substring(0, qMarks.length() - 1) + ")";
+        insertSql = "insert into " + tMetaData.getName() + " (" + getFieldsNamesWithoutId(",") + ") values ("
+                + qMarks.substring(0, qMarks.length() - 1) + ")";
 
-        updateSql = "update " + tMetaData.getName() + " set " + getFieldsNamesWithoutId("=?,") + "=? where id=?";
+        updateSql = "update " + tMetaData.getName() + " set " + getFieldsNamesWithoutId(" = ?,")
+                + "=? where " + tMetaData.getIdField().getName() + " = ?";
     }
 
     @Override
