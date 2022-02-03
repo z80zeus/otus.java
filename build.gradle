@@ -65,6 +65,7 @@ allprojects {
             dependency("org.postgresql:postgresql:42.3.1")
             dependency("org.projectlombok:lombok:1.18.22")
             dependency("org.slf4j:slf4j-api:1.7.32")
+            dependency("org.slf4j:slf4j-simple:1.7.32")
             dependency("org.testcontainers:junit-jupiter:1.15.3")
             dependency("org.testcontainers:postgresql:1.15.3")
             dependency("org.webjars:bootstrap:4.4.1-1")

@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+}
+
+group 'ru.otus'
+version 'unspecified'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "com.zaxxer:HikariCP"
+    implementation "org.flywaydb:flyway-core"
+    implementation "org.postgresql:postgresql"
+    implementation "org.slf4j:slf4j-api"
+    implementation "org.slf4j:slf4j-simple"
+    testImplementation "org.junit.jupiter:junit-jupiter-api"
+
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
+}
+
+test {
+    useJUnitPlatform()
+}
