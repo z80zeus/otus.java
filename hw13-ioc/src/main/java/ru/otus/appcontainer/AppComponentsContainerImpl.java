@@ -8,16 +8,13 @@ import ru.otus.appcontainer.api.AppComponentsContainerConfig;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Parameter;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class AppComponentsContainerImpl implements AppComponentsContainer {
 
     private final Logger logger = LoggerFactory.getLogger(AppComponentsContainerImpl.class);
     private final Map<String, Object> appComponentsByName = new HashMap<>();
-    private final Map<Class<?>, Object> appComponentsByClass = new HashMap<>();
+    private final Map<Class<?>, List<Object>> appComponentsByClass = new HashMap<>();
 
     public AppComponentsContainerImpl(Class<?> initialConfigClass) {
         processConfig(initialConfigClass);
@@ -26,25 +23,60 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
     private void processConfig(Class<?> configClass) {
         checkConfigClass(configClass);
         try {
-            var config = configClass.getDeclaredConstructor().newInstance();
-            var methods = Arrays.stream(configClass.getDeclaredMethods())
+            final var config = configClass.getDeclaredConstructor().newInstance();
+            final var methods = Arrays.stream(configClass.getDeclaredMethods())
                     .filter(method -> method.isAnnotationPresent(AppComponent.class))
                     .sorted(Comparator.comparingInt(method -> method.getDeclaredAnnotation(AppComponent.class).order())).toList();
 
             for (var method: methods) {
-                var methodResultType = method.getReturnType();
-                var methodResultName = method.getDeclaredAnnotation(AppComponent.class).name();
+                var newComponentName = method.getDeclaredAnnotation(AppComponent.class).name();
+                if (appComponentsByName.containsKey(newComponentName))
+                    throw new InstantiationException("Component " + newComponentName + " is already instantiated");
+
+                // Все типы, которые может возвращать метод: и заявленный интерфейс, и реальный класс и его
+                // необъявленные в методе интерфейсы.
+                final List<Class<?>> newComponentTypes = new ArrayList<>();
+
+                // Объявленный возвращаемый тип.
+                final var methodResultType = method.getReturnType();
+                newComponentTypes.add(methodResultType);
+
+                // Добавить все интерфейсы возвращаемого типа.
+                newComponentTypes.addAll(Arrays.asList(methodResultType.getInterfaces()));
+
+                // Подготовка параметров вызова метода и получение результата.
                 var methodParams = Arrays.stream(method.getParameters())
                         .map(Parameter::getType)
-                        .map(appComponentsByClass::get)
+                        .map(clazz -> appComponentsByClass.get(clazz).get(0))
                         .toArray();
-                var result = method.invoke(config, methodParams);
-                appComponentsByName.put(methodResultName, result);
-                appComponentsByClass.put(methodResultType, result);
-                appComponentsByClass.put(result.getClass(), result);
+                final var newComponent = method.invoke(config, methodParams);
+
+                appComponentsByName.put(newComponentName, newComponent);
+
+                // Добавить в список типов нового компонента РЕАЛЬНЫЙ тип компонента, который вернул метод.
+                newComponentTypes.add(newComponent.getClass());
+
+                // Добавить в список все ИНТЕРФЕЙСЫ реального типа, который вернул метод.
+                newComponentTypes.addAll(Arrays.asList(newComponent.getClass().getInterfaces()));
+
+                // Записать новый компонент под всеми выявленными интерфейсами.
+                List<Object> componentsByType;
+                for (final var clazz: newComponentTypes) {
+                    if (!appComponentsByClass.containsKey(clazz)) {
+                        (componentsByType = new ArrayList<>()).add(newComponent);
+                        appComponentsByClass.put(clazz, componentsByType);
+                        continue;
+                    }
+
+                    componentsByType = appComponentsByClass.get(clazz);
+                    if (!componentsByType.contains(newComponent)) {
+                        componentsByType.add(newComponent);
+                    }
+                }
             }
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             logger.error(e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -57,7 +89,7 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
     @Override
     public <C> C getAppComponent(Class<C> componentClass) {
         //noinspection unchecked
-        return (C)appComponentsByClass.get(componentClass);
+        return (C)appComponentsByClass.get(componentClass).get(0);
     }
 
     @Override
